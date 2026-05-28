@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-display: var(--font-display), system-ui, sans-serif;
+  --font-mono: var(--font-mono), monospace;
+}
+
+@layer utilities {
+  .bg-grid {
+    background-size: 3rem 3rem;
+    background-image: 
+      linear-gradient(to right, rgba(6, 95, 70, 0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(6, 95, 70, 0.02) 1px, transparent 1px);
+  }
+}
+
+/* Custom Scrollbar for white theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #fcfdfd;
+}
+::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s infinite ease-in-out;
+}
