@@ -902,9 +902,10 @@ export default function WorkshopLandingPage() {
                 <div className="flex items-center space-x-5 mb-6">
                   <div className="w-16 h-16 rounded-full overflow-hidden bg-slate-100 border border-[#0b3d2b]/20 flex items-center justify-center relative">
                     <Image 
-                      src="/speaker.png" 
+                      src="/Speaker.png" 
                       alt="Surya Pratap Singh" 
                       fill
+                      sizes="64px"
                       className="object-cover"
                       referrerPolicy="no-referrer"
                     />
