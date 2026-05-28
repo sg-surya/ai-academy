@@ -33,7 +33,8 @@ import {
   Zap,
   Star,
   Globe,
-  Database
+  Database,
+  Target
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -314,17 +315,17 @@ export default function WorkshopLandingPage() {
       </header>
 
       {/* CORE CONTENT */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-24 sm:pt-32 pb-32">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-20 pb-20">
         
         {/* HERO SECTION DESIGNED AS BENTO LAYOUT INTRO */}
-        <section id="hero" className="pt-6 pb-16 lg:py-20">
+        <section id="hero" className="pt-2 pb-12 lg:pb-16 lg:pt-4">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
             
             {/* Left Column: Premium copywriting, taglines, countdown, and core indicators */}
             <div className="lg:col-span-7 flex flex-col justify-between space-y-8 bg-white border border-[#0b3d2b]/15 p-6 sm:p-10 shadow-sm relative">
               
-              <div className="absolute top-0 right-0 bg-amber-500 text-slate-950 font-mono text-[9px] font-black px-3.5 py-1 tracking-wider uppercase border-l border-b border-[#0b3d2b]/15 flex items-center gap-1.5 animate-pulse">
-                <span className="w-1.5 h-1.5 bg-slate-950 rounded-full shrink-0" />
+              <div className="absolute top-0 right-0 bg-amber-500 text-slate-950 font-mono text-[10px] sm:text-xs font-black px-4 py-2 tracking-wider uppercase border-l-2 border-b-2 border-[#0b3d2b] flex items-center gap-1.5 shadow-[2px_2px_0px_rgba(7,19,13,0.15)]">
+                <Sparkles className="w-3.5 h-3.5 text-slate-950 fill-slate-950 shrink-0" />
                 Saves ₹2,999
               </div>
 
@@ -354,10 +355,10 @@ export default function WorkshopLandingPage() {
 
                 {/* Ultimate positioning statement - "The wow factor" */}
                 <div className="border-l-4 border-amber-500 bg-amber-500/5 p-4 mt-6 font-mono text-xs sm:text-sm text-[#07130d] leading-relaxed uppercase tracking-tight font-extrabold flex items-start gap-3">
-                  <span className="text-amber-500 text-lg">🚀</span>
+                  <Rocket className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                   <div>
-                    AI sirf use mat karo. <br className="sm:hidden" />
-                    <span className="text-emerald-800">AI samajhna aur build karna seekho.</span>
+                    Don&apos;t just use AI tools. <br className="sm:hidden" />
+                    <span className="text-emerald-800 font-black">Learn to understand and build AI.</span>
                   </div>
                 </div>
               </div>
@@ -383,56 +384,60 @@ export default function WorkshopLandingPage() {
               </div>
 
               {/* Timer Dashboard inside the Bento card */}
-              <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div className="text-center sm:text-left">
-                  <span className="block text-[8px] font-mono tracking-widest text-slate-400 font-bold uppercase mb-1">
-                    🎯 STATUS: COHORT STARTING SOON
-                  </span>
-                  <p className="text-[#0b3d2b] font-bold text-xs">
+                  <div className="flex items-center justify-center sm:justify-start space-x-1.5 mb-1.5">
+                    <Target className="w-4 h-4 text-emerald-700 shrink-0" />
+                    <span className="block text-[10px] sm:text-xs font-mono tracking-widest text-[#0b3d2b] font-black uppercase">
+                      STATUS: COHORT STARTING SOON
+                    </span>
+                  </div>
+                  <p className="text-[#0b3d2b] font-extrabold text-sm">
                     Limited Registrations • Only 14 Seats Left
                   </p>
                 </div>
 
-                {/* Clean Countdown with custom ticks */}
-                <div className="flex items-center space-x-2 bg-[#07130d] text-white px-4 py-2.5 rounded-none border border-[#0b3d2b]/40">
-                  <div className="text-center min-w-[32px]">
-                    <span className="block font-mono text-xs sm:text-sm font-black text-emerald-400">{timeLeft.days}</span>
-                    <span className="text-[7px] text-slate-400 font-mono uppercase tracking-tighter">Days</span>
+                {/* Highly Scaled up Countdown with custom ticks */}
+                <div className="flex items-center space-x-3 sm:space-x-4 bg-[#07130d] text-white px-6 py-4 rounded-none border-2 border-emerald-500/30 shadow-[4px_4px_0px_#0b3d2b]">
+                  <div className="text-center min-w-[42px] sm:min-w-[48px]">
+                    <span className="block font-mono text-2xl sm:text-3xl font-black text-emerald-400 tracking-tight leading-none">{timeLeft.days}</span>
+                    <span className="text-[8px] sm:text-[9px] text-slate-400 font-mono uppercase tracking-widest font-bold block mt-1">Days</span>
                   </div>
-                  <span className="text-emerald-500/50 font-mono">:</span>
-                  <div className="text-center min-w-[32px]">
-                    <span className="block font-mono text-xs sm:text-sm font-black text-emerald-400">{timeLeft.hours}</span>
-                    <span className="text-[7px] text-slate-400 font-mono uppercase tracking-tighter">Hours</span>
+                  <span className="text-emerald-500/60 font-mono text-xl sm:text-2xl font-black shrink-0 animate-pulse leading-none">:</span>
+                  <div className="text-center min-w-[42px] sm:min-w-[48px]">
+                    <span className="block font-mono text-2xl sm:text-3xl font-black text-emerald-400 tracking-tight leading-none">{timeLeft.hours}</span>
+                    <span className="text-[8px] sm:text-[9px] text-slate-400 font-mono uppercase tracking-widest font-bold block mt-1">Hours</span>
                   </div>
-                  <span className="text-emerald-500/50 font-mono">:</span>
-                  <div className="text-center min-w-[32px]">
-                    <span className="block font-mono text-xs sm:text-sm font-black text-emerald-400">{timeLeft.minutes}</span>
-                    <span className="text-[7px] text-slate-400 font-mono uppercase tracking-tighter">Mins</span>
+                  <span className="text-emerald-500/60 font-mono text-xl sm:text-2xl font-black shrink-0 animate-pulse leading-none">:</span>
+                  <div className="text-center min-w-[42px] sm:min-w-[48px]">
+                    <span className="block font-mono text-2xl sm:text-3xl font-black text-emerald-400 tracking-tight leading-none">{timeLeft.minutes}</span>
+                    <span className="text-[8px] sm:text-[9px] text-slate-400 font-mono uppercase tracking-widest font-bold block mt-1">Mins</span>
                   </div>
-                  <span className="text-emerald-500/50 font-mono">:</span>
-                  <div className="text-center min-w-[32px]">
-                    <span className="block font-mono text-xs sm:text-sm font-black text-rose-500 animate-pulse">{timeLeft.seconds}</span>
-                    <span className="text-[7px] text-slate-400 font-mono uppercase tracking-tighter">Secs</span>
+                  <span className="text-emerald-500/60 font-mono text-xl sm:text-2xl font-black shrink-0 animate-pulse leading-none">:</span>
+                  <div className="text-center min-w-[42px] sm:min-w-[48px]">
+                    <span className="block font-mono text-2xl sm:text-3xl font-black text-rose-500 tracking-tight animate-pulse leading-none">{timeLeft.seconds}</span>
+                    <span className="text-[8px] sm:text-[9px] text-slate-400 font-mono uppercase tracking-widest font-bold block mt-1">Secs</span>
                   </div>
                 </div>
               </div>
-
             </div>
 
             {/* Right Column: Premium Active Interactive Form styled in clean strict sharp edges */}
-            <div className="lg:col-span-5 bg-white border border-[#0b3d2b]/15 p-6 sm:p-8 flex flex-col justify-between shadow-sm relative">
+            <div className="lg:col-span-5 bg-white border-2 border-[#0b3d2b] p-6 sm:p-8 flex flex-col justify-between shadow-[6px_6px_0px_#0b3d2b] relative">
               <div>
-                <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 mb-6 gap-3">
                   <div>
-                    <span className="block text-[9px] font-mono tracking-wider text-emerald-800 font-extrabold uppercase">
+                    <span className="block text-[10px] font-mono tracking-wider text-emerald-800 font-extrabold uppercase mb-0.5">
                       CLAIM FREE ADMISSION
                     </span>
-                    <h3 className="font-display text-lg font-black text-[#07130d] mt-0.5">
+                    <h3 className="font-display text-xl font-black text-[#07130d]">
                       Start Learning AI Today
                     </h3>
                   </div>
-                  <div className="bg-amber-500/10 text-amber-800 border border-amber-500/10 font-mono text-[9.5px] font-bold px-2 py-1 uppercase rounded-none leading-none shrink-0 self-start">
-                    ₹2,999 → FREE
+                  {/* Huge striking pricing ticket badge */}
+                  <div className="bg-amber-500 text-slate-950 border-2 border-slate-950 px-4 py-2 font-mono text-center uppercase shadow-[3px_3px_0px_#07130d] transform -rotate-1 hover:rotate-0 transition-transform duration-150 shrink-0 self-start">
+                    <span className="line-through text-slate-800/70 text-xs font-bold mr-2">₹2,999</span>
+                    <span className="text-sm sm:text-base font-black text-[#07130d]">100% FREE</span>
                   </div>
                 </div>
 
@@ -449,8 +454,8 @@ export default function WorkshopLandingPage() {
                       
                       {/* Name field */}
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 border-r border-slate-100 pr-2.5">
-                          <User className="w-3.5 h-3.5" />
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 border-r border-slate-150 pr-3">
+                          <User className="w-4 h-4 text-slate-500" />
                         </div>
                         <input 
                           type="text" 
@@ -459,14 +464,14 @@ export default function WorkshopLandingPage() {
                           value={formData.name}
                           onChange={handleInputChange}
                           placeholder="Your Full Name" 
-                          className="w-full bg-slate-50 border border-slate-200/95 pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0b3d2b] focus:bg-white transition-colors"
+                          className="w-full bg-slate-50 border-2 border-slate-200 pl-13 pr-4 py-4 text-sm sm:text-base text-slate-900 placeholder-slate-400 font-semibold focus:outline-none focus:border-[#0b3d2b] focus:bg-white transition-all duration-200"
                         />
                       </div>
 
                       {/* Email field */}
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 border-r border-slate-100 pr-2.5">
-                          <Mail className="w-3.5 h-3.5" />
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 border-r border-slate-150 pr-3">
+                          <Mail className="w-4 h-4 text-slate-500" />
                         </div>
                         <input 
                           type="email" 
@@ -475,14 +480,14 @@ export default function WorkshopLandingPage() {
                           value={formData.email}
                           onChange={handleInputChange}
                           placeholder="Email Address" 
-                          className="w-full bg-slate-50 border border-slate-200/95 pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0b3d2b] focus:bg-white transition-colors"
+                          className="w-full bg-slate-50 border-2 border-slate-200 pl-13 pr-4 py-4 text-sm sm:text-base text-slate-900 placeholder-slate-400 font-semibold focus:outline-none focus:border-[#0b3d2b] focus:bg-white transition-all duration-200"
                         />
                       </div>
 
                       {/* Telephone / Whatsapp field */}
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 border-r border-slate-100 pr-2.5">
-                          <Phone className="w-3.5 h-3.5 text-emerald-600/70" />
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 border-r border-slate-150 pr-3">
+                          <Phone className="w-4 h-4 text-emerald-700 font-bold" />
                         </div>
                         <input 
                           type="tel" 
@@ -491,20 +496,20 @@ export default function WorkshopLandingPage() {
                           value={formData.phone}
                           onChange={handleInputChange}
                           placeholder="WhatsApp Phone Number" 
-                          className="w-full bg-slate-50 border border-slate-200/95 pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0b3d2b] focus:bg-white transition-colors"
+                          className="w-full bg-slate-50 border-2 border-slate-200 pl-13 pr-4 py-4 text-sm sm:text-base text-slate-900 placeholder-slate-400 font-semibold focus:outline-none focus:border-[#0b3d2b] focus:bg-white transition-all duration-200"
                         />
                       </div>
 
                       {/* Role dropdown */}
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 border-r border-slate-100 pr-2.5">
-                          <Briefcase className="w-3.5 h-3.5" />
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 border-r border-slate-150 pr-3">
+                          <Briefcase className="w-4 h-4 text-slate-500" />
                         </div>
                         <select 
                           name="role"
                           value={formData.role}
                           onChange={handleInputChange}
-                          className="w-full bg-slate-50 border border-slate-200/95 pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-750 focus:outline-none focus:border-[#0b3d2b] focus:bg-white transition-colors cursor-pointer"
+                          className="w-full bg-slate-50 border-2 border-slate-200 pl-13 pr-4 py-4 text-sm sm:text-base text-slate-750 font-semibold focus:outline-none focus:border-[#0b3d2b] focus:bg-white transition-all duration-200 cursor-pointer"
                         >
                           <option value="Student">Student (Class 9–12 / College)</option>
                           <option value="Working Professional">Working Professional</option>
@@ -521,21 +526,22 @@ export default function WorkshopLandingPage() {
                           onChange={handleInputChange}
                           rows={2}
                           placeholder="Optional: Why are you joining 'Learn AI From Scratch'?" 
-                          className="w-full bg-slate-50 border border-slate-200/95 px-4 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0b3d2b] focus:bg-white transition-colors resize-none"
+                          className="w-full bg-slate-50 border-2 border-slate-200 px-4 py-3.5 text-sm sm:text-base text-slate-900 placeholder-slate-400 font-semibold focus:outline-none focus:border-[#0b3d2b] focus:bg-white transition-all duration-200 resize-none"
                         />
                       </div>
 
+                      {/* Massive Registration Button CTA */}
                       <button 
                         type="submit"
-                        className="w-full bg-emerald-700 hover:bg-[#0b3d2b] text-white py-3.5 font-mono text-[11px] tracking-wider uppercase font-black transition-all duration-150 flex items-center justify-center space-x-2 border border-[#07130d] shadow-[3px_3px_0px_#07130d] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_#07130d] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none cursor-pointer"
+                        className="w-full bg-emerald-800 hover:bg-[#0b3d2b] text-white py-5 px-6 font-mono text-xs sm:text-sm tracking-widest uppercase font-black transition-all duration-150 flex items-center justify-center space-x-2.5 border-2 border-[#07130d] shadow-[5px_5px_0px_#07130d] hover:translate-x-[1.5px] hover:translate-y-[1.5px] hover:shadow-[3.5px_3.5px_0px_#07130d] active:translate-x-[5px] active:translate-y-[5px] active:shadow-none cursor-pointer"
                       >
-                        <span>Reserve My Free Seat</span>
-                        <ArrowRight className="w-4 h-4" />
+                        <span>Reserve My Free Seat Now</span>
+                        <ArrowRight className="w-5 h-5 animate-pulse shrink-0" />
                       </button>
 
-                      <div className="flex items-center justify-center space-x-1 text-[10px] text-slate-400 pt-2 font-mono uppercase font-bold">
-                        <Lock className="w-3 h-3" />
-                        <span>🛡️ 100% Secure • No Spam Guarantee</span>
+                      <div className="flex items-center justify-center space-x-1.5 text-[10px] text-slate-400 pt-2 font-mono uppercase font-bold">
+                        <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <span>100% Secure • No Spam Guarantee</span>
                       </div>
                     </form>
                   ) : (
@@ -559,7 +565,10 @@ export default function WorkshopLandingPage() {
                       {/* Live Join Dashboard Detail */}
                       <div className="bg-emerald-500/5 border border-emerald-600/10 p-4 text-left text-xs space-y-2.5 font-sans">
                         <div className="flex items-center justify-between text-[11px] font-bold text-[#0b3d2b]">
-                          <span className="font-mono text-[9px] uppercase tracking-wider">🗓️ Streaming Schedule</span>
+                          <span className="flex items-center space-x-1 font-mono text-[9px] uppercase tracking-wider">
+                            <Calendar className="w-3.5 h-3.5 text-[#07130d]" />
+                            <span>Streaming Schedule</span>
+                          </span>
                           <span className="font-mono text-[8px] bg-[#0b3d2b] text-white px-2 py-0.5 uppercase">Status: Active</span>
                         </div>
                         <div className="text-slate-700 leading-relaxed font-semibold">
@@ -607,10 +616,11 @@ export default function WorkshopLandingPage() {
         </section>
 
         {/* SECTION 1: THE CORE BENTO GRID OF WHAT YOU'LL LEARN (CURRICULUM) */}
-        <section id="curriculum" className="py-16 border-t border-slate-200/60">
+         <section id="curriculum" className="py-16 border-t border-slate-200/60">
           <div className="text-center max-w-3xl mx-auto mb-14">
-            <span className="text-[10px] font-mono font-black uppercase tracking-widest text-[#0b3d2b] bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 leading-none">
-              🚀 MASTERCLASS ROADMAP
+            <span className="inline-flex items-center space-x-1.5 text-[10px] font-mono font-black uppercase tracking-widest text-[#0b3d2b] bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 leading-none">
+              <Rocket className="w-3.5 h-3.5 text-emerald-700" />
+              <span>Masterclass Roadmap</span>
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-extrabold mt-4 text-[#07130d] tracking-tight">
               Workshop Curriculum
@@ -643,14 +653,14 @@ export default function WorkshopLandingPage() {
                   </div>
                   <div>
                     <h3 className="font-mono text-xs text-slate-400 font-extrabold tracking-widest uppercase">SECTION GOAL</h3>
-                    <p className="text-emerald-950 text-xs font-extrabold uppercase">Fear remove karna</p>
+                    <p className="text-emerald-950 text-xs font-extrabold uppercase">Eliminate Tech Fear</p>
                   </div>
                 </div>
                 
                 <ul className="space-y-3.5 font-sans text-xs text-slate-600 border-t border-slate-100 pt-5">
                   <li className="flex items-start space-x-2">
                     <span className="text-emerald-600 mt-0.5 font-bold shrink-0">✦</span>
-                    <span className="font-semibold text-slate-700">AI kya hai? (Simple approach)</span>
+                    <span className="font-semibold text-slate-700">What is AI? (Simple approach)</span>
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="text-emerald-600 mt-0.5 font-bold shrink-0">✦</span>
@@ -662,7 +672,7 @@ export default function WorkshopLandingPage() {
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="text-emerald-600 mt-0.5 font-bold shrink-0">✦</span>
-                    <span className="font-semibold text-slate-700">ChatGPT kaise kaam karta hai?</span>
+                    <span className="font-semibold text-slate-700">How does ChatGPT work?</span>
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="text-emerald-600 mt-0.5 font-bold shrink-0">✦</span>
@@ -831,6 +841,34 @@ export default function WorkshopLandingPage() {
           </div>
         </section>
 
+        {/* NEW HIGHLY INTERACTIVE PREMIUM COMPONENT: LIVE PROMPT OPTIMIZATION LAB */}
+        <section className="py-16 border-t border-slate-200/60 font-sans">
+          <div className="max-w-4xl mx-auto">
+            
+            {/* Component Header */}
+            <div className="text-center mb-10">
+              <span className="inline-flex items-center space-x-1.5 text-[10px] font-mono font-black uppercase tracking-widest text-[#0b3d2b] bg-[#0b3d2b]/5 border border-[#0b3d2b]/15 px-3.5 py-1.5 leading-none">
+                <Terminal className="w-3.5 h-3.5 text-emerald-800" />
+                <span>Try It Live • Prompt Lab</span>
+              </span>
+              <h3 className="font-display text-2xl sm:text-3xl font-extrabold mt-3 text-[#07130d] tracking-tight">
+                Prompt Quality Preview
+              </h3>
+              <p className="text-slate-500 mt-2 text-xs sm:text-sm font-medium max-w-lg mx-auto">
+                See how normal prompts get refined into structured AI Master Scripts inside our exclusive live workshop. Click any category below to experiment.
+              </p>
+            </div>
+
+            {/* Main Interactive Bento Grid Card */}
+            <div className="bg-white border-2 border-[#0b3d2b] shadow-[6px_6px_0px_#0b3d2b] p-6 sm:p-8 relative">
+              
+              {/* Internal State management simulator inside client layout */}
+              <PromptLabSandbox />
+              
+            </div>
+          </div>
+        </section>
+
         {/* SECTION 2: BIO & WORKSHOP STATS AS NESTED SHARP-BORDER BENTO CARDS */}
         <section className="py-12 border-t border-slate-200/60">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
@@ -874,15 +912,15 @@ export default function WorkshopLandingPage() {
               </div>
 
               {/* Badges row */}
-              <div className="flex flex-wrap gap-2 pt-5 border-t border-slate-100">
-                <span className="bg-emerald-500/5 border border-emerald-500/20 text-[#0b3d2b] font-mono text-[9px] font-bold py-1 px-2.5">
-                  ✓ AI Developer
+              <div className="flex flex-wrap gap-2 pt-5 border-t border-slate-100 items-center">
+                <span className="inline-flex items-center bg-emerald-500/5 border border-emerald-500/20 text-[#0b3d2b] font-mono text-[9px] font-bold py-1 px-2.5">
+                  <Check className="w-3 h-3 mr-1 text-[#0b3d2b]" /> AI Developer
                 </span>
-                <span className="bg-amber-500/10 border border-amber-500/15 text-amber-800 font-mono text-[9px] font-bold py-1 px-2.5">
-                  ⚡ Automation Architect
+                <span className="inline-flex items-center bg-amber-500/10 border border-amber-500/15 text-amber-800 font-mono text-[9px] font-bold py-1 px-2.5">
+                  <Zap className="w-3 h-3 text-amber-600 fill-amber-500 mr-1" /> Automation Architect
                 </span>
-                <span className="bg-slate-100 border border-slate-200 text-slate-600 font-mono text-[9px] font-bold py-1 px-2.5">
-                  ✪ Creator & Educator
+                <span className="inline-flex items-center bg-slate-100 border border-slate-200 text-slate-600 font-mono text-[9px] font-bold py-1 px-2.5">
+                  <Sparkles className="w-3 h-3 text-slate-500 mr-1" /> Creator & Educator
                 </span>
               </div>
             </motion.div>
@@ -1208,9 +1246,10 @@ export default function WorkshopLandingPage() {
           <div className="bg-[#0b3d2b] text-white border-2 border-[#07130d] p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-[4px_4px_0px_#07130d]">
             <div className="absolute right-0 bottom-0 top-0 w-1/3 bg-gradient-to-l from-emerald-600/10 to-transparent pointer-events-none" />
             
-            <div className="space-y-1 text-left relative z-10">
-              <span className="text-amber-500 font-mono text-[10px] uppercase tracking-widest font-black leading-none block">
-                🚀 BECOME READY FOR THE FUTURE
+            <div className="space-y-1.5 text-left relative z-10">
+              <span className="inline-flex items-center space-x-1.5 text-amber-500 font-mono text-[10px] uppercase tracking-widest font-black leading-none">
+                <Rocket className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                <span>BECOME READY FOR THE FUTURE</span>
               </span>
               <h4 className="font-display text-lg sm:text-2xl font-black leading-tight text-white">
                 Start Your AI Journey Today!
@@ -1229,97 +1268,7 @@ export default function WorkshopLandingPage() {
           </div>
         </section>
 
-        {/* COLLAPSIBLE DASHBOARD PANEL FOR REAL-TIME LEADS VIEW (ADMIN ONLY / HOST CONSOLE) */}
-        <section className="mt-8 border border-dashed border-stone-300 bg-[#f7f6f2] p-4 sm:p-6 rounded-none">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 text-[#0b3d2b]">
-              <Database className="w-4 h-4 shrink-0" />
-              <div>
-                <h5 className="font-mono text-[10px] font-black uppercase tracking-widest leading-none">
-                  Landed Admissions Database
-                </h5>
-                <span className="text-[9px] text-slate-400 font-medium">Host Supervisor Console</span>
-              </div>
-            </div>
-            
-            <button 
-              onClick={() => setShowAdminPanel(!showAdminPanel)}
-              className="px-3 py-1 bg-white hover:bg-slate-50 border border-slate-200 text-[10px] font-mono text-slate-600 font-bold transition duration-150 flex items-center space-x-1"
-            >
-              <span>{showAdminPanel ? '▼ Hide Leads Logs' : '▲ Show Registrations Log'}</span>
-              <span className="bg-[#0b3d2b] text-white font-mono text-[9px] px-1.5 py-0.5 ml-1.5 font-bold">
-                {localLeads.length} Total
-              </span>
-            </button>
-          </div>
 
-          <AnimatePresence>
-            {showAdminPanel && (
-              <motion.div 
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                className="overflow-hidden mt-4 pt-4 border-t border-slate-200/80"
-              >
-                {localLeads.length === 0 ? (
-                  <p className="text-center font-mono text-xs text-slate-400 py-6">
-                    No registrations in local memory yet. Fill out the capture form above to see real-time updates!
-                  </p>
-                ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left font-mono text-[10px] text-slate-700 bg-white border border-slate-200/80">
-                      <thead>
-                        <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 font-black">
-                          <th className="p-3">CODE ID</th>
-                          <th className="p-3">CANDIDATE NAME</th>
-                          <th className="p-3">EMAIL ADDRESS</th>
-                          <th className="p-3">WHATSAPP</th>
-                          <th className="p-3">ROLE CATEGORY</th>
-                          <th className="p-3">REASON / OUTCOME EXPECTATION</th>
-                          <th className="p-3 text-right">REGISTERED TIME</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {localLeads.map((cd, index) => (
-                          <tr key={cd.id || index} className="border-b border-slate-100 hover:bg-slate-50">
-                            <td className="p-3 font-bold text-emerald-800">{cd.id}</td>
-                            <td className="p-3 font-sans font-bold text-slate-900">{cd.name}</td>
-                            <td className="p-3">{cd.email}</td>
-                            <td className="p-3 text-slate-800">{cd.phone}</td>
-                            <td className="p-3 font-sans font-bold">
-                              <span className="bg-emerald-50 px-2 py-0.5 border border-emerald-100 text-emerald-800 text-[9px]">
-                                {cd.role}
-                              </span>
-                            </td>
-                            <td className="p-3 font-sans max-w-xs truncate text-[11px] text-slate-500" title={cd.reason}>
-                              {cd.reason}
-                            </td>
-                            <td className="p-3 text-right text-slate-400 font-mono">{cd.timestamp}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    
-                    <div className="flex items-center justify-between text-[9px] text-slate-400 mt-2">
-                      <span>✓ Synchronized with LocalStorage data store</span>
-                      <button 
-                        onClick={() => {
-                          if (confirm("Reset candidates list to factory default simulation dataset?")) {
-                            localStorage.removeItem('vasudev_ai_leads');
-                            window.location.reload();
-                          }
-                        }}
-                        className="text-rose-500 hover:underline hover:text-rose-600 uppercase font-black"
-                      >
-                        Reset Log List
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </section>
 
       </main>
 
@@ -1430,6 +1379,236 @@ export default function WorkshopLandingPage() {
         )}
       </AnimatePresence>
 
+    </div>
+  );
+}
+
+// Interactive Prompt Engineering Sandbox implementation
+function PromptLabSandbox() {
+  const [activeCategory, setActiveCategory] = useState<'study' | 'copywriting' | 'coding'>('study');
+  const [isOptimizing, setIsOptimizing] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [logs, setLogs] = useState<string[]>([]);
+
+  const categories = {
+    study: {
+      title: 'Academic Study Prep',
+      description: 'Struggling to understand hard topics',
+      metric: 'Conceptual clarity for Student / Learners',
+      raw: 'explain photosynthesis simply and quickly.',
+      optimized: `[System Directive] Act as a senior scientific research supervisor and elite academic mentor with 20+ years of pedagogic experience.
+
+[Task & Topic Constraints] Breakdown the complex biology of "Photosynthesis" (light and dark biochemical cycles) into a structured, non-technical explanation.
+
+[Analogy Mandate] You must explain the core concept using a relatable real-world analogy (e.g. solar grids or a bakery production line).
+
+[Required Output Format]
+1. THE CORE IDEA: 1-sentence executive summary.
+2. BAKERY ANALOGY: A simple, memorable breakdown.
+3. STEP-BY-STEP: Crisply separate the Light Cycle and Dark Cycle.
+4. MEMORY DRILL: 2 quick self-evaluation questions.`
+    },
+    copywriting: {
+      title: 'Digital Storytelling',
+      description: 'Struggling to write viral headlines',
+      metric: '92% higher click-through potential',
+      raw: 'write a promotion post for our upcoming school science exhibition.',
+      optimized: `[System Directive] Act as an award-winning direct response copywriter and digital creator specializing in student community building.
+
+[Task Constraints] Craft a highly compelling, hook-driven digital bulletin announcing our regional School Science Exhibition.
+
+[Target Audience] Parents, fellow scholars, local engineering judges, and teachers.
+
+[Details to Incorporate] Date: Coming Sunday, Location: Main Auditorium, Featured Experiments: Student built AI Voice cloning assistant & high-density solar glider.
+
+[Required Hook Framework]
+- BEGIN with a startling question regarding the future of engineering.
+- USE clean whitespace, bullet points, and bulleted benefits.
+- CONCLUDE with a high-priority call-to-action.`
+    },
+    coding: {
+      title: 'Frontend Coding',
+      description: 'Writing custom styling or scripts',
+      metric: 'Fully commented ready-to-use production scripts',
+      raw: 'write code for a digital clock widget with a nice font.',
+      optimized: `[System Directive] Act as a Principal Frontend Engineer specializing in lightweight mobile-first web experiences and Tailwind CSS layouts.
+
+[Engineering Challenge] Construct a complete responsive digital clock component enclosed in a stunning high-contrast dashboard card.
+
+[Technical Constraints]
+- Built entirely within a single-file template (index.html).
+- Styled dynamically using Tailwind CSS utility classes.
+- Use smooth CSS transitions, soft amber ambient glow shadows, and a clean tracking-widest monospace font configuration.
+- Write modular vanilla JavaScript to synchronize local live time.
+
+[Required Delivery] Provide cleanly formatted code with informative debugging comments.`
+    }
+  };
+
+  const current = categories[activeCategory];
+
+  const handleOptimize = () => {
+    setIsOptimizing(true);
+    setShowResult(false);
+    setLogs([]);
+    const sequence = [
+      'Initializing Vasudev Prompt Matrix Engine...',
+      'Injecting expert persona variables...',
+      'Mapping structured output requirements...',
+      'Structuring task and detail context...',
+      'Applying negative constraints and formatting rules...',
+      'Finalizing Master Prompt Configuration!'
+    ];
+
+    let step = 0;
+    const interval = setInterval(() => {
+      if (step < sequence.length) {
+        setLogs((prev) => [...prev, sequence[step]]);
+        step++;
+      } else {
+        clearInterval(interval);
+        setIsOptimizing(false);
+        setShowResult(true);
+      }
+    }, 450);
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(current.optimized);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Category Tabs */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {(Object.keys(categories) as Array<keyof typeof categories>).map((cat) => (
+          <button
+            key={cat}
+            onClick={() => {
+              setActiveCategory(cat);
+              setShowResult(false);
+              setLogs([]);
+            }}
+            className={`p-4 border text-left cursor-pointer transition-all duration-200 ${
+              activeCategory === cat
+                ? 'bg-[#0b3d2b] text-white border-[#06241a] shadow-[3.5px_3.5px_0px_#07130d] transform -translate-y-0.5'
+                : 'bg-stone-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
+            }`}
+          >
+            <span className="block font-sans text-xs font-black uppercase tracking-wider leading-none mb-1">
+              {categories[cat].title}
+            </span>
+            <span className="block font-sans text-[10px] text-slate-400 font-medium">
+              {categories[cat].description}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        {/* Left Column: Raw vs Action */}
+        <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
+          <div className="bg-slate-50 border border-slate-200 p-5 flex flex-col justify-between h-full space-y-4">
+            <div>
+              <span className="block font-mono text-[9px] text-slate-400 font-bold uppercase tracking-wider mb-2">
+                What a standard user writes:
+              </span>
+              <div className="bg-white border text-sm text-slate-500 font-sans p-3 italic rounded-none">
+                &ldquo;{current.raw}&rdquo;
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-slate-200/60">
+              <span className="block font-mono text-[9px] text-amber-600 font-black uppercase tracking-widest mb-1.5">
+                ENGINE STATUS
+              </span>
+              <p className="text-slate-600 text-xs font-medium leading-relaxed">
+                Ordinary prompts output shallow, generic, or incorrect responses. Our structured approach results in:
+              </p>
+              <div className="inline-flex items-center space-x-1.5 bg-emerald-500/10 border border-emerald-500/20 text-[#0b3d2b] px-2.5 py-1 font-mono text-[9.5px] font-black uppercase mt-3">
+                <Check className="w-3.5 h-3.5" />
+                <span>{current.metric}</span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={handleOptimize}
+            disabled={isOptimizing}
+            className="w-full bg-emerald-800 hover:bg-[#0b3d2b] disabled:bg-slate-300 text-white py-4 font-mono text-xs tracking-widest uppercase font-black transition-all border-2 border-[#07130d] shadow-[4px_4px_0px_#07130d] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_#07130d] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none cursor-pointer flex items-center justify-center space-x-2 shrink-0 animate-pulse-glow"
+          >
+            <Zap className={`w-4 h-4 text-amber-400 ${isOptimizing ? 'animate-spin' : ''}`} />
+            <span>{isOptimizing ? 'PROCESSING ENGINE...' : 'OPTIMIZE WITH VASUDEV PROTOCOL'}</span>
+          </button>
+        </div>
+
+        {/* Right Column: Engine Output Console */}
+        <div className="lg:col-span-7 bg-slate-950 text-slate-100 border-2 border-slate-905 p-5 font-mono text-xs flex flex-col justify-between relative shadow-inner min-h-[300px]">
+          <div>
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4 text-[9px] text-slate-400">
+              <span className="flex items-center space-x-1.5">
+                <span className="w-2 h-2 bg-red-500 rounded-full inline-block animate-ping" />
+                <span>VASUDEV AI OPTIMIZATION TERMINAL V1.4</span>
+              </span>
+              <span>OUTPUT FORMAT: STR-MD</span>
+            </div>
+
+            {/* In optimization status logs */}
+            {isOptimizing && (
+              <div className="space-y-2 text-emerald-400 font-mono text-[11px]">
+                {logs.map((log, index) => (
+                  <div key={index} className="flex items-start space-x-1">
+                    <span className="text-slate-600">&gt;</span>
+                    <span>{log}</span>
+                  </div>
+                ))}
+                <span className="inline-block w-2.5 h-3.5 bg-emerald-400 animate-pulse ml-1" />
+              </div>
+            )}
+
+            {/* Static output initially */}
+            {!isOptimizing && !showResult && (
+              <div className="flex flex-col items-center justify-center py-16 text-center text-slate-500 font-mono space-y-3">
+                <Terminal className="w-8 h-8 text-slate-700" />
+                <div>
+                  <p className="text-xs uppercase font-bold text-slate-400">Awaiting Target Selection</p>
+                  <p className="text-[10px] text-slate-600 mt-1 max-w-xs">Select a category and hit the optimization launch button to view output telemetry.</p>
+                </div>
+              </div>
+            )}
+
+            {/* Output result */}
+            {showResult && !isOptimizing && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-slate-300 whitespace-pre-line leading-relaxed font-mono text-[10.5px] overflow-y-auto max-h-[340px] pr-2 scrollbar-thin scrollbar-thumb-slate-800"
+              >
+                {current.optimized}
+              </motion.div>
+            )}
+          </div>
+
+          {/* Copy trigger */}
+          {showResult && !isOptimizing && (
+            <div className="pt-3 border-t border-slate-900 mt-4 flex items-center justify-between text-[10px] bg-slate-950 shrink-0">
+              <span className="text-emerald-500 font-bold flex items-center space-x-1.5">
+                <Check className="w-3.5 h-3.5" />
+                <span>Optimal Prompt Ready!</span>
+              </span>
+              <button
+                onClick={handleCopy}
+                className="bg-emerald-950 text-emerald-400 border border-emerald-800/40 hover:bg-emerald-900/40 px-3 py-1.5 font-bold uppercase cursor-pointer transition duration-150"
+              >
+                {copied ? '✓ Prompt Copied' : 'Copy Optimized Prompt'}
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
