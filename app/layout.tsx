@@ -1,5 +1,6 @@
 import type {Metadata} from 'next';
 import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css'; // Global styles
 
 const inter = Inter({
@@ -28,6 +29,25 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
+      <head>
+        {/* Google tag (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-Z75PE4Q41S"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-Z75PE4Q41S');
+            `,
+          }}
+        />
+      </head>
       <body className="bg-[#fcfdfd] font-sans antialiased text-slate-900 selection:bg-emerald-500/20 selection:text-emerald-900" suppressHydrationWarning>
         {children}
       </body>
