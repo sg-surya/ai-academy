@@ -34,7 +34,9 @@ import {
   Star,
   Globe,
   Database,
-  Target
+  Target,
+  X,
+  Gift
 } from 'lucide-react';
 
 import { motion, AnimatePresence } from 'motion/react';
@@ -61,6 +63,7 @@ export default function WorkshopLandingPage() {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [showAdminPanel, setShowAdminPanel] = useState<boolean>(false);
   const [localLeads, setLocalLeads] = useState<Lead[]>([]);
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
 
   // Monitor scroll for floating pill header transition
   useEffect(() => {
@@ -232,7 +235,9 @@ export default function WorkshopLandingPage() {
     };
 
     try {
-      await setDoc(doc(db, 'registrations', registrationId), newLead);
+      // Destructure 'id' out to match Firestore security rules which check for exactly 6 keys
+      const { id, ...firebaseLead } = newLead;
+      await setDoc(doc(db, 'registrations', registrationId), firebaseLead);
     } catch (error) {
       setIsSubmitting(false);
       handleFirestoreError(error, OperationType.CREATE, `registrations/${registrationId}`);
@@ -256,10 +261,7 @@ export default function WorkshopLandingPage() {
     setIsRegistered(true);
     setRegisteredEmail(email.trim());
     setIsSubmitting(false);
-    
-    // Smooth scroll to top of success state card
-    const formSection = document.getElementById('registration-section');
-    formSection?.scrollIntoView({ behavior: 'smooth' });
+    setShowSuccessModal(true);
   };
 
   // Upcoming Sunday date label in a localized readable format
@@ -416,9 +418,29 @@ export default function WorkshopLandingPage() {
                 </div>
 
                 {/* Live Session Date & Time Badge */}
-                <div className="flex flex-col items-center justify-center bg-[#07130d] text-white px-6 py-4.5 rounded-none border-2 border-emerald-500/30 shadow-[4px_4px_0px_#0b3d2b] min-w-[200px] text-center">
-                  <span className="block text-[9px] text-amber-500 font-mono uppercase font-black tracking-widest mb-1.5">LIVE SESSION SCHEDULE</span>
-                  <span className="block font-mono text-xs sm:text-sm font-black text-emerald-400 uppercase tracking-widest animate-pulse-glow">To Be Announced</span>
+                <div className="flex flex-col items-center justify-center bg-[#07130d] text-white px-6 py-5 rounded-none border-2 border-emerald-500/30 shadow-[4px_4px_0px_#0b3d2b] min-w-[240px] text-center">
+                  <span className="block text-[9px] text-amber-500 font-mono uppercase font-black tracking-widest mb-3">LIVE SESSION SCHEDULE</span>
+                  <div className="flex items-center justify-center space-x-2.5 font-mono">
+                    <div className="flex flex-col items-center">
+                      <span className="text-lg sm:text-xl font-black text-emerald-400 leading-none">{timeLeft.days}</span>
+                      <span className="text-[8px] text-slate-400 font-bold uppercase mt-1">Days</span>
+                    </div>
+                    <span className="text-slate-600 font-bold text-lg leading-none -mt-3">:</span>
+                    <div className="flex flex-col items-center">
+                      <span className="text-lg sm:text-xl font-black text-emerald-400 leading-none">{timeLeft.hours}</span>
+                      <span className="text-[8px] text-slate-400 font-bold uppercase mt-1">Hours</span>
+                    </div>
+                    <span className="text-slate-600 font-bold text-lg leading-none -mt-3">:</span>
+                    <div className="flex flex-col items-center">
+                      <span className="text-lg sm:text-xl font-black text-emerald-400 leading-none">{timeLeft.minutes}</span>
+                      <span className="text-[8px] text-slate-400 font-bold uppercase mt-1">Mins</span>
+                    </div>
+                    <span className="text-slate-600 font-bold text-lg leading-none -mt-3">:</span>
+                    <div className="flex flex-col items-center">
+                      <span className="text-lg sm:text-xl font-black text-rose-500 leading-none">{timeLeft.seconds}</span>
+                      <span className="text-[8px] text-slate-400 font-bold uppercase mt-1">Secs</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -844,6 +866,10 @@ export default function WorkshopLandingPage() {
           </div>
         </section>
 
+        <ProjectShowcaseSection />
+        
+        <BeforeAfterSection />
+
         {/* NEW HIGHLY INTERACTIVE PREMIUM COMPONENT: LIVE PROMPT OPTIMIZATION LAB */}
         <section className="py-16 border-t border-slate-200/60 font-sans">
           <motion.div 
@@ -1004,6 +1030,8 @@ export default function WorkshopLandingPage() {
           </div>
         </section>
 
+        <AudienceSection />
+
         {/* SECTION 3: INDUSTRY ACCREDITATION & CERTIFICATE OF COMPLETION */}
         <section id="certificate-section" className="py-16 border-t border-slate-200/60">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -1077,6 +1105,9 @@ export default function WorkshopLandingPage() {
             </motion.div>
           </div>
         </section>
+
+        <BonusesSection />
+
          {/* SECTION 4: FREQUENTLY ASKED QUESTIONS */}
         <section id="faq" className="py-16 border-t border-slate-200/60">
           <div className="text-center max-w-3xl mx-auto mb-14">
@@ -1353,6 +1384,107 @@ export default function WorkshopLandingPage() {
         </div>
       )}
 
+      {/* SUCCESS MODAL POPUP */}
+      <AnimatePresence>
+        {showSuccessModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowSuccessModal(false)}
+              className="absolute inset-0 bg-[#07130d]/80 backdrop-blur-md"
+            />
+
+            {/* Modal Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 25 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 25 }}
+              transition={{ type: 'spring', duration: 0.5, bounce: 0.2 }}
+              className="relative w-full max-w-md bg-white border-4 border-[#0b3d2b] p-6 sm:p-8 text-[#07130d] shadow-[8px_8px_0px_#07130d] z-10 overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Top Accent Bar */}
+              <div className="absolute top-0 left-0 right-0 h-2 bg-amber-500" />
+
+              {/* Close Button */}
+              <button
+                onClick={() => setShowSuccessModal(false)}
+                className="absolute top-4 right-4 text-slate-450 hover:text-[#0b3d2b] transition-colors p-1 border border-transparent hover:border-slate-200 cursor-pointer"
+                aria-label="Close modal"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              {/* Success Content */}
+              <div className="text-center space-y-5 pt-3">
+                {/* Animated Ring Checkmark */}
+                <div className="w-16 h-16 bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto rounded-full border-2 border-emerald-500/20 shadow-md">
+                  <CheckCircle2 className="w-9 h-9 animate-bounce text-emerald-700" />
+                </div>
+
+                <div className="space-y-2">
+                  <span className="inline-flex items-center space-x-1.5 bg-emerald-500/10 text-[#0b3d2b] border border-emerald-500/20 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-wider">
+                    Registration Confirmed
+                  </span>
+                  <h3 className="font-display text-2xl font-black text-[#07130d] tracking-tight leading-tight">
+                    Seat Reserved! 🎉
+                  </h3>
+                  <p className="text-slate-500 text-xs font-semibold leading-relaxed px-4">
+                    A direct calendar invite has been dispatched to your email:<br />
+                    <span className="font-bold text-[#0b3d2b] break-all">{registeredEmail}</span>
+                  </p>
+                </div>
+
+                {/* Info Block */}
+                <div className="bg-stone-50 border border-slate-200/80 p-4 text-left text-xs space-y-2.5 font-sans">
+                  <div className="flex items-center justify-between text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider">
+                    <span>Live Access Pass</span>
+                    <span className="text-[#0b3d2b]">100% Free Admission</span>
+                  </div>
+                  <div className="text-slate-600 leading-relaxed font-semibold">
+                    💡 <strong>Status:</strong> Active & Confirmed<br />
+                    📅 <strong>Schedule:</strong> TBA (All announcements & class links will be sent inside WhatsApp group)
+                  </div>
+                </div>
+
+                {/* Interactive WhatsApp Ring CTA */}
+                <div className="pt-2 space-y-3">
+                  <p className="text-[11px] text-amber-600 font-extrabold uppercase font-mono tracking-tight animate-pulse">
+                    ⚠️ CRITICAL STEP: JOIN THE GROUP BELOW!
+                  </p>
+                  
+                  <a
+                    href="https://chat.whatsapp.com/LxRtUPfuXws0ho8QmSzmsQ"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex w-full items-center justify-center space-x-2.5 bg-[#1ea853] hover:bg-[#188c44] text-white py-4 px-6 font-mono text-[11px] tracking-wider uppercase font-black transition-all duration-200 border-2 border-[#07130d] shadow-[4px_4px_0px_#07130d] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_#07130d] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none"
+                  >
+                    <Phone className="w-4 h-4 text-white shrink-0" />
+                    <span>Join Candidates WhatsApp Group</span>
+                  </a>
+                  
+                  <p className="text-[9px] font-mono text-slate-400 font-bold uppercase leading-none mt-2">
+                    *Links to Google Meet will only be shared in WhatsApp group
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setShowSuccessModal(false)}
+                  className="text-[10px] font-mono text-[#0b3d2b] hover:text-emerald-800 uppercase tracking-widest font-extrabold block mx-auto underline pt-2 cursor-pointer"
+                >
+                  Close & Explore Website
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }
@@ -1580,5 +1712,367 @@ function PromptLabSandbox() {
         </div>
       </div>
     </div>
+  );
+}
+
+function ProjectShowcaseSection() {
+  const [activeProject, setActiveProject] = useState(0);
+
+  const projects = [
+    {
+      title: "AI Chatbot",
+      desc: "Build a custom intelligent assistant.",
+      icon: <Terminal className="w-5 h-5" />,
+      color: "emerald",
+      visual: (
+        <div className="flex flex-col h-full bg-slate-50 border border-slate-200 shadow-inner p-4 space-y-4">
+          <div className="flex justify-start"><div className="bg-white border border-slate-200 p-2 text-xs rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[80%] shadow-sm font-sans">Hello! How can I help you today?</div></div>
+          <div className="flex justify-end"><div className="bg-emerald-100 border border-emerald-200 text-emerald-900 p-2 text-xs rounded-tl-lg rounded-bl-lg rounded-br-lg max-w-[80%] shadow-sm font-sans">I need to automate my daily emails.</div></div>
+          <div className="flex justify-start"><div className="bg-white border border-slate-200 p-2 text-xs rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[80%] shadow-sm font-sans">I can help with that. Let's set up a workflow.</div></div>
+          <div className="mt-auto bg-white border border-slate-200 p-2 flex items-center text-slate-400 text-xs shadow-sm font-sans">Type a message...</div>
+        </div>
+      )
+    },
+    {
+      title: "Custom Webpage",
+      desc: "Generate full UI/UX from simple text prompts.",
+      icon: <Globe className="w-5 h-5" />,
+      color: "amber",
+      visual: (
+        <div className="flex flex-col h-full bg-white border border-slate-200 shadow-inner overflow-hidden">
+          <div className="bg-slate-100 p-2 border-b border-slate-200 flex items-center space-x-2">
+            <div className="w-2 h-2 rounded-full bg-rose-400"></div><div className="w-2 h-2 rounded-full bg-amber-400"></div><div className="w-2 h-2 rounded-full bg-emerald-400"></div>
+          </div>
+          <div className="p-4 space-y-3">
+            <div className="w-3/4 h-6 bg-slate-100 mx-auto"></div>
+            <div className="w-1/2 h-3 bg-slate-100 mx-auto mt-2"></div>
+            <div className="grid grid-cols-2 gap-3 mt-4">
+              <div className="h-16 bg-emerald-50 border border-emerald-100"></div>
+              <div className="h-16 bg-amber-50 border border-amber-100"></div>
+            </div>
+            <div className="w-1/3 h-8 bg-[#0b3d2b] mx-auto mt-4"></div>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Smart Automation",
+      desc: "Connect apps and automate repetitive tasks.",
+      icon: <Zap className="w-5 h-5" />,
+      color: "rose",
+      visual: (
+        <div className="flex flex-col h-full bg-slate-50 border border-slate-200 shadow-inner p-4 items-center justify-center space-y-2">
+           <div className="bg-white border-2 border-slate-300 p-3 flex items-center justify-center shadow-sm w-32"><Mail className="w-5 h-5 text-slate-500 mr-2"/> <span className="text-xs font-bold text-slate-700 font-sans">Gmail</span></div>
+           <div className="w-0.5 h-6 bg-slate-300"></div>
+           <div className="bg-white border-2 border-[#0b3d2b] p-3 flex items-center justify-center shadow-[4px_4px_0px_#0b3d2b] w-32"><Cpu className="w-5 h-5 text-[#0b3d2b] mr-2"/> <span className="text-xs font-bold text-[#0b3d2b] font-sans">Filter AI</span></div>
+           <div className="w-0.5 h-6 bg-slate-300"></div>
+           <div className="bg-white border-2 border-slate-300 p-3 flex items-center justify-center shadow-sm w-32"><Database className="w-5 h-5 text-slate-500 mr-2"/> <span className="text-xs font-bold text-slate-700 font-sans">Sheets</span></div>
+        </div>
+      )
+    },
+    {
+      title: "Local LLMs",
+      desc: "Run completely offline, private AI models.",
+      icon: <Database className="w-5 h-5" />,
+      color: "blue",
+      visual: (
+        <div className="flex flex-col h-full bg-[#07130d] border border-slate-800 shadow-inner p-4 font-mono">
+          <div className="text-emerald-500 text-[10px] mb-2">root@local-ai:~$ ./start-model</div>
+          <div className="text-slate-400 text-[10px]">[INFO] Loading weights into memory...</div>
+          <div className="text-slate-400 text-[10px]">[INFO] Model initialized. Ready.</div>
+          <div className="text-emerald-500 text-[10px] mt-4">root@local-ai:~$ query "summarize"</div>
+          <div className="text-amber-400 text-[10px] mt-1">Processing locally... [100%]</div>
+          <div className="text-white text-[10px] mt-2 border-l-2 border-slate-600 pl-2 leading-relaxed">Data summarized. Zero network calls made. Privacy maintained.</div>
+        </div>
+      )
+    }
+  ];
+
+  return (
+    <section className="py-16 border-t border-slate-200/60 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8">
+        <div className="text-center max-w-3xl mx-auto mb-14">
+          <span className="inline-flex items-center space-x-1.5 text-[10px] font-mono font-black uppercase tracking-widest text-[#0b3d2b] bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 leading-none">
+            <Terminal className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Interactive Showcase</span>
+          </span>
+          <h2 className="font-display text-3xl sm:text-4xl font-extrabold mt-4 text-[#07130d] tracking-tight">
+            What You Will Build
+          </h2>
+          <p className="text-slate-500 mt-2 text-sm max-w-xl mx-auto font-medium">
+            During the workshop, we won't just talk theory. You will practically construct these 4 tools from scratch.
+          </p>
+        </div>
+
+        <div className="bg-white border-2 border-[#0b3d2b] shadow-[8px_8px_0px_#0b3d2b] p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          {/* Left: Project List */}
+          <div className="lg:col-span-5 flex flex-col space-y-3">
+            {projects.map((proj, idx) => (
+              <button 
+                key={idx}
+                onClick={() => setActiveProject(idx)}
+                className={`p-4 text-left border-2 flex items-center justify-between group transition-all duration-200 cursor-pointer ${
+                  activeProject === idx 
+                  ? 'border-[#0b3d2b] bg-slate-50 shadow-[4px_4px_0px_#0b3d2b] translate-y-[-2px]' 
+                  : 'border-slate-100 hover:border-[#0b3d2b]/30 bg-white'
+                }`}
+              >
+                <div className="flex items-center space-x-4">
+                  <div className={`w-10 h-10 flex items-center justify-center border transition-colors ${
+                    activeProject === idx ? 'bg-[#0b3d2b] text-white border-[#0b3d2b]' : 'bg-slate-50 text-slate-500 border-slate-200 group-hover:text-[#0b3d2b]'
+                  }`}>
+                    {proj.icon}
+                  </div>
+                  <div>
+                    <h4 className={`font-mono text-xs sm:text-sm font-black uppercase tracking-wide ${activeProject === idx ? 'text-[#07130d]' : 'text-slate-600'}`}>{proj.title}</h4>
+                    <p className="text-[11px] text-slate-500 font-medium mt-0.5 font-sans">{proj.desc}</p>
+                  </div>
+                </div>
+                {activeProject === idx && <ArrowRight className="w-4 h-4 text-[#0b3d2b]" />}
+              </button>
+            ))}
+          </div>
+
+          {/* Right: Visual Display */}
+          <div className="lg:col-span-7 bg-slate-100 border-2 border-slate-200 p-4 relative overflow-hidden min-h-[300px] flex items-center justify-center">
+            <div className="absolute top-0 right-0 bg-white border-b-2 border-l-2 border-slate-200 px-3 py-1 font-mono text-[9px] font-bold text-slate-400 uppercase z-10">
+              Live Preview
+            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeProject}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+                className="w-full h-full max-w-md mx-auto aspect-video"
+              >
+                {projects[activeProject].visual}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BeforeAfterSection() {
+  return (
+    <section className="py-16 border-t border-slate-200/60 bg-stone-50">
+      <div className="max-w-5xl mx-auto px-4 sm:px-8">
+        <div className="text-center mb-12">
+          <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-[#07130d] tracking-tight">
+            The AI Transformation
+          </h2>
+          <p className="text-slate-500 mt-2 text-sm max-w-xl mx-auto font-medium">
+            See exactly how learning these tools shifts your daily capabilities.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-2 border-[#0b3d2b] shadow-[8px_8px_0px_#0b3d2b] bg-white">
+          
+          {/* Before Column */}
+          <div className="p-8 border-b md:border-b-0 md:border-r border-slate-200 relative overflow-hidden bg-rose-50/30">
+            <div className="absolute top-0 left-0 w-full h-1 bg-rose-500/20"></div>
+            <div className="flex items-center space-x-2 mb-8">
+              <div className="w-8 h-8 rounded-none bg-rose-100 text-rose-600 flex items-center justify-center border border-rose-200">
+                <X className="w-4 h-4 font-bold" />
+              </div>
+              <h3 className="font-mono text-sm font-black text-rose-900 uppercase tracking-widest">Before (Without AI)</h3>
+            </div>
+            
+            <ul className="space-y-6">
+              <li className="flex items-start space-x-3">
+                <div className="mt-1 text-rose-500 shrink-0 text-sm">❌</div>
+                <div>
+                  <span className="block text-sm font-bold text-slate-800">Fear of Coding</span>
+                  <span className="text-xs text-slate-500 leading-relaxed block mt-0.5">Feeling intimidated by technical terms and complex programming languages.</span>
+                </div>
+              </li>
+              <li className="flex items-start space-x-3">
+                <div className="mt-1 text-rose-500 shrink-0 text-sm">❌</div>
+                <div>
+                  <span className="block text-sm font-bold text-slate-800">Manual Copywriting</span>
+                  <span className="text-xs text-slate-500 leading-relaxed block mt-0.5">Spending hours drafting emails, posts, or content from scratch.</span>
+                </div>
+              </li>
+              <li className="flex items-start space-x-3">
+                <div className="mt-1 text-rose-500 shrink-0 text-sm">❌</div>
+                <div>
+                  <span className="block text-sm font-bold text-slate-800">Prompt Confusion</span>
+                  <span className="text-xs text-slate-500 leading-relaxed block mt-0.5">Getting generic or useless answers because of poor prompt structuring.</span>
+                </div>
+              </li>
+              <li className="flex items-start space-x-3">
+                <div className="mt-1 text-rose-500 shrink-0 text-sm">❌</div>
+                <div>
+                  <span className="block text-sm font-bold text-slate-800">Lagging Behind</span>
+                  <span className="text-xs text-slate-500 leading-relaxed block mt-0.5">Watching competitors and peers automate tasks while you do them manually.</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {/* After Column */}
+          <div className="p-8 relative overflow-hidden bg-emerald-50/30">
+            <div className="absolute top-0 left-0 w-full h-1 bg-[#0b3d2b]"></div>
+            <div className="absolute -right-12 -bottom-12 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div className="flex items-center space-x-2 mb-8">
+              <div className="w-8 h-8 rounded-none bg-[#0b3d2b] text-white flex items-center justify-center shadow-[2px_2px_0px_#07130d]">
+                <Check className="w-4 h-4 font-bold" />
+              </div>
+              <h3 className="font-mono text-sm font-black text-[#0b3d2b] uppercase tracking-widest">After (With Vasudev AI)</h3>
+            </div>
+            
+            <ul className="space-y-6">
+              <li className="flex items-start space-x-3">
+                <div className="mt-1 text-emerald-600 shrink-0 text-sm">✅</div>
+                <div>
+                  <span className="block text-sm font-bold text-[#07130d]">Build Without Code</span>
+                  <span className="text-xs text-slate-600 leading-relaxed block mt-0.5">Create fully functional web apps and tools using simple English commands.</span>
+                </div>
+              </li>
+              <li className="flex items-start space-x-3">
+                <div className="mt-1 text-emerald-600 shrink-0 text-sm">✅</div>
+                <div>
+                  <span className="block text-sm font-bold text-[#07130d]">Master AI Scripts</span>
+                  <span className="text-xs text-slate-600 leading-relaxed block mt-0.5">Write advanced, structured prompts that yield professional, high-quality output instantly.</span>
+                </div>
+              </li>
+              <li className="flex items-start space-x-3">
+                <div className="mt-1 text-emerald-600 shrink-0 text-sm">✅</div>
+                <div>
+                  <span className="block text-sm font-bold text-[#07130d]">Run Local Offline Models</span>
+                  <span className="text-xs text-slate-600 leading-relaxed block mt-0.5">Deploy private AI models on your own machine with zero data sharing.</span>
+                </div>
+              </li>
+              <li className="flex items-start space-x-3">
+                <div className="mt-1 text-emerald-600 shrink-0 text-sm">✅</div>
+                <div>
+                  <span className="block text-sm font-bold text-[#07130d]">Future-Proof Career</span>
+                  <span className="text-xs text-slate-600 leading-relaxed block mt-0.5">Become the most efficient person in the room by automating your workflow.</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AudienceSection() {
+  return (
+    <section className="py-16 border-t border-slate-200/60 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8">
+        <div className="text-center mb-12">
+          <span className="inline-flex items-center space-x-1.5 text-[10px] font-mono font-black uppercase tracking-widest text-[#0b3d2b] bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 leading-none">
+            <Users className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Target Audience</span>
+          </span>
+          <h2 className="font-display text-3xl sm:text-4xl font-extrabold mt-4 text-[#07130d] tracking-tight">
+            Is This Workshop For You?
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Card 1 */}
+          <div className="bg-white border border-[#0b3d2b]/15 p-6 hover:border-[#0b3d2b] transition-all duration-300 relative group">
+            <div className="absolute top-0 left-0 w-full h-1 bg-amber-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+            <div className="w-12 h-12 bg-slate-50 border border-slate-200 text-[#0b3d2b] flex items-center justify-center mb-5">
+              <BookOpen className="w-6 h-6" />
+            </div>
+            <h3 className="font-mono text-sm font-black text-[#07130d] uppercase tracking-wide mb-3">Students & Learners</h3>
+            <ul className="space-y-2 text-xs text-slate-600">
+              <li className="flex items-start"><span className="text-emerald-500 mr-2 shrink-0 text-sm">✦</span> <span>Ace your assignments faster with AI structuring.</span></li>
+              <li className="flex items-start"><span className="text-emerald-500 mr-2 shrink-0 text-sm">✦</span> <span>Build a stellar college portfolio using real AI projects.</span></li>
+              <li className="flex items-start"><span className="text-emerald-500 mr-2 shrink-0 text-sm">✦</span> <span>Learn skills that secure high-paying future jobs.</span></li>
+            </ul>
+          </div>
+
+          {/* Card 2 */}
+          <div className="bg-white border border-[#0b3d2b]/15 p-6 hover:border-[#0b3d2b] transition-all duration-300 relative group">
+            <div className="absolute top-0 left-0 w-full h-1 bg-[#0b3d2b] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+            <div className="w-12 h-12 bg-slate-50 border border-slate-200 text-[#0b3d2b] flex items-center justify-center mb-5">
+              <Sparkles className="w-6 h-6" />
+            </div>
+            <h3 className="font-mono text-sm font-black text-[#07130d] uppercase tracking-wide mb-3">Creators & Freelancers</h3>
+            <ul className="space-y-2 text-xs text-slate-600">
+              <li className="flex items-start"><span className="text-emerald-500 mr-2 shrink-0 text-sm">✦</span> <span>Generate endless content ideas and viral hooks.</span></li>
+              <li className="flex items-start"><span className="text-emerald-500 mr-2 shrink-0 text-sm">✦</span> <span>Automate client outreach and email follow-ups.</span></li>
+              <li className="flex items-start"><span className="text-emerald-500 mr-2 shrink-0 text-sm">✦</span> <span>Deliver higher quality work in half the time.</span></li>
+            </ul>
+          </div>
+
+          {/* Card 3 */}
+          <div className="bg-white border border-[#0b3d2b]/15 p-6 hover:border-[#0b3d2b] transition-all duration-300 relative group">
+            <div className="absolute top-0 left-0 w-full h-1 bg-emerald-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+            <div className="w-12 h-12 bg-slate-50 border border-slate-200 text-[#0b3d2b] flex items-center justify-center mb-5">
+              <Briefcase className="w-6 h-6" />
+            </div>
+            <h3 className="font-mono text-sm font-black text-[#07130d] uppercase tracking-wide mb-3">Working Professionals</h3>
+            <ul className="space-y-2 text-xs text-slate-600">
+              <li className="flex items-start"><span className="text-emerald-500 mr-2 shrink-0 text-sm">✦</span> <span>Automate repetitive spreadsheet and data tasks.</span></li>
+              <li className="flex items-start"><span className="text-emerald-500 mr-2 shrink-0 text-sm">✦</span> <span>Draft professional reports and presentations instantly.</span></li>
+              <li className="flex items-start"><span className="text-emerald-500 mr-2 shrink-0 text-sm">✦</span> <span>Stand out as the tech-savvy leader in your office.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BonusesSection() {
+  return (
+    <section className="py-16 border-t border-slate-200/60 bg-[#fafbf9]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-8">
+        <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-6">
+          <div>
+            <span className="inline-flex items-center space-x-1.5 text-[10px] font-mono font-black uppercase tracking-widest text-amber-700 bg-amber-500/10 border border-amber-500/20 px-3.5 py-1.5 leading-none">
+              <Gift className="w-3.5 h-3.5 text-amber-600" />
+              <span>Free with Registration</span>
+            </span>
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold mt-3 text-[#07130d] tracking-tight">
+              Exclusive Registration Bonuses
+            </h2>
+          </div>
+          <div className="bg-white border-2 border-slate-200 px-4 py-2 text-xs font-mono font-bold text-slate-500 shadow-sm">
+            Total Value: <span className="line-through mx-1">₹4,500</span> <span className="text-emerald-600 font-black">FREE</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          {/* Bonus 1 */}
+          <div className="bg-white border border-[#0b3d2b] p-5 shadow-[4px_4px_0px_#0b3d2b] flex flex-col items-center text-center">
+            <div className="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center mb-4 border border-amber-100">
+              <FileText className="w-5 h-5 text-amber-600" />
+            </div>
+            <h4 className="font-mono text-xs font-black text-[#07130d] uppercase mb-2">AI Master Cheat Sheet</h4>
+            <p className="text-[11px] text-slate-500 font-medium leading-relaxed">100+ proven copy-paste prompt formulas for daily tasks.</p>
+          </div>
+
+          {/* Bonus 2 */}
+          <div className="bg-white border border-[#0b3d2b] p-5 shadow-[4px_4px_0px_#0b3d2b] flex flex-col items-center text-center">
+            <div className="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center mb-4 border border-emerald-100">
+              <Globe className="w-5 h-5 text-emerald-600" />
+            </div>
+            <h4 className="font-mono text-xs font-black text-[#07130d] uppercase mb-2">Secret Tools Directory</h4>
+            <p className="text-[11px] text-slate-500 font-medium leading-relaxed">Curated list of 50+ free AI tools that nobody talks about.</p>
+          </div>
+
+          {/* Bonus 3 */}
+          <div className="bg-white border border-[#0b3d2b] p-5 shadow-[4px_4px_0px_#0b3d2b] flex flex-col items-center text-center">
+            <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mb-4 border border-blue-100">
+              <Zap className="w-5 h-5 text-blue-600" />
+            </div>
+            <h4 className="font-mono text-xs font-black text-[#07130d] uppercase mb-2">Automation Templates</h4>
+            <p className="text-[11px] text-slate-500 font-medium leading-relaxed">Plug-and-play workflows to automate emails and data entry.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
