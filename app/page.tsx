@@ -36,7 +36,7 @@ import {
   Database,
   Target
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+
 
 // Structuring leads type for Admin Viewer
 interface Lead {
@@ -448,8 +448,7 @@ export default function WorkshopLandingPage() {
                   </div>
                 )}
 
-                <AnimatePresence mode="wait">
-                  {!isRegistered ? (
+                {!isRegistered ? (
                     <form onSubmit={handleRegisterSubmit} className="space-y-4">
                       
                       {/* Name field */}
@@ -545,11 +544,7 @@ export default function WorkshopLandingPage() {
                       </div>
                     </form>
                   ) : (
-                    <motion.div 
-                      initial={{ scale: 0.98, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      className="text-center py-6 space-y-5"
-                    >
+                    <div className="text-center py-6 space-y-5">
                       <div className="w-14 h-14 bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto shadow-sm">
                         <CheckCircle2 className="w-7 h-7" />
                       </div>
@@ -600,9 +595,8 @@ export default function WorkshopLandingPage() {
                       >
                         Register Another Account
                       </button>
-                    </motion.div>
+                    </div>
                   )}
-                </AnimatePresence>
               </div>
 
               {/* Verified badge footer */}
@@ -633,13 +627,7 @@ export default function WorkshopLandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
             
             {/* Box 1: PART 1 — AI BASICS */}
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-              className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group"
-            >
+            <div className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group">
               <div>
                 {/* Meta details header bar in bento style */}
                 <div className="flex items-center justify-between text-[9px] font-mono font-bold text-slate-400 mb-6 uppercase tracking-wider">
@@ -685,16 +673,10 @@ export default function WorkshopLandingPage() {
               <div className="absolute right-4 bottom-4 opacity-10 group-hover:scale-110 transition duration-300 pointer-events-none">
                 <BookOpen className="w-12 h-12 text-[#0b3d2b]" />
               </div>
-            </motion.div>
+            </div>
 
             {/* Box 2: PART 2 - AI TOOLS */}
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-              className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group"
-            >
+            <div className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group">
               <div>
                 <div className="flex items-center justify-between text-[9px] font-mono font-bold text-slate-400 mb-6 uppercase tracking-wider">
                   <span>Part 02</span>
@@ -738,16 +720,10 @@ export default function WorkshopLandingPage() {
               <div className="absolute right-4 bottom-4 opacity-10 group-hover:scale-110 transition duration-300 pointer-events-none">
                 <Cpu className="w-12 h-12 text-[#0b3d2b]" />
               </div>
-            </motion.div>
+            </div>
 
             {/* Box 3: PART 3 - PRACTICAL PROJECTS */}
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group animate-pulse-glow"
-            >
+            <div className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group">
               <div>
                 <div className="flex items-center justify-between text-[9px] font-mono font-bold text-slate-400 mb-6 uppercase tracking-wider">
                   <span>Part 03</span>
@@ -787,16 +763,10 @@ export default function WorkshopLandingPage() {
               <div className="absolute right-4 bottom-4 opacity-10 group-hover:scale-110 transition duration-300 pointer-events-none">
                 <Sparkles className="w-12 h-12 text-amber-600" />
               </div>
-            </motion.div>
+            </div>
 
             {/* Box 4: PART 4 - CAREER & FUTURE */}
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.3 }}
-              className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group"
-            >
+            <div className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group">
               <div>
                 <div className="flex items-center justify-between text-[9px] font-mono font-bold text-slate-400 mb-6 uppercase tracking-wider">
                   <span>Part 04</span>
@@ -836,7 +806,7 @@ export default function WorkshopLandingPage() {
               <div className="absolute right-4 bottom-4 opacity-10 group-hover:scale-110 transition duration-300 pointer-events-none">
                 <Rocket className="w-12 h-12 text-[#0b3d2b]" />
               </div>
-            </motion.div>
+            </div>
 
           </div>
         </section>
@@ -874,11 +844,8 @@ export default function WorkshopLandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             
             {/* Left Card: Speaker Biography Card */}
-            <motion.div 
+            <div 
               id="speaker" 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
               className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-10 flex flex-col justify-between"
             >
               <div>
@@ -923,14 +890,11 @@ export default function WorkshopLandingPage() {
                   <Sparkles className="w-3 h-3 text-slate-500 mr-1" /> Creator & Educator
                 </span>
               </div>
-            </motion.div>
+            </div>
 
             {/* Right Card: Dynamic Schedule & Platform Details Bento */}
-            <motion.div 
+            <div 
               id="workshop-details" 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
               className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-10 flex flex-col justify-between relative overflow-hidden"
             >
               {/* Backglow decor */}
@@ -987,7 +951,7 @@ export default function WorkshopLandingPage() {
                 </div>
               </div>
 
-            </motion.div>
+            </div>
 
           </div>
         </section>
@@ -997,12 +961,7 @@ export default function WorkshopLandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Description Column */}
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-6 space-y-6 text-left"
-            >
+            <div className="lg:col-span-6 space-y-6 text-left">
               <div className="inline-flex items-center space-x-1.5 bg-emerald-500/10 text-emerald-800 border border-emerald-500/25 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-wider">
                 <Award className="w-3.5 h-3.5" />
                 <span>Gain Credential</span>
@@ -1038,15 +997,10 @@ export default function WorkshopLandingPage() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Right Certificate Graphic Mockup */}
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-6 flex justify-center"
-            >
+            <div className="lg:col-span-6 flex justify-center">
               <div className="bg-white border border-[#0b3d2b]/15 p-3.5 sm:p-5 shadow-sm hover:border-[#0b3d2b]/30 transition duration-300 relative">
                 <div className="absolute top-0 right-0 bg-[#0b3d2b] text-white font-mono text-[8px] px-2 py-0.5 uppercase tracking-wider font-bold">
                   Demo Template
@@ -1060,12 +1014,10 @@ export default function WorkshopLandingPage() {
                   referrerPolicy="no-referrer"
                 />
               </div>
-            </motion.div>
-
+            </div>
           </div>
         </section>
-
-        {/* SECTION 4: FREQUENTLY ASKED QUESTIONS */}
+         {/* SECTION 4: FREQUENTLY ASKED QUESTIONS */}
         <section id="faq" className="py-16 border-t border-slate-200/60">
           <div className="text-center max-w-3xl mx-auto mb-14">
             <span className="text-[10px] font-mono font-black uppercase tracking-widest text-[#0b3d2b] bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 leading-none">
@@ -1090,70 +1042,49 @@ export default function WorkshopLandingPage() {
                   <span>1. Is this workshop beginner friendly?</span>
                   {activeFaq === 1 ? <ChevronUp className="w-4 h-4 text-[#0b3d2b]" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
                 </button>
-                <AnimatePresence initial={false}>
-                  {activeFaq === 1 && (
-                    <motion.div 
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden"
-                    >
-                      <p className="p-4 sm:p-5 pt-0 text-slate-500 text-xs sm:text-sm leading-relaxed border-t border-slate-100 font-medium bg-[#fafbf9]">
-                        Yes, definitely! The entire workshop flow has been structured specifically for absolute beginners. We do not use any complicated programming syntax or deep technical math. Whether you are a student, creator, or professional, you can follow easily.
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {activeFaq === 1 && (
+                  <div className="overflow-hidden border-t border-slate-100 bg-[#fafbf9]">
+                    <p className="p-4 sm:p-5 text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">
+                      Yes, definitely! The entire workshop flow has been structured specifically for absolute beginners. We do not use any complicated programming syntax or deep technical math. Whether you are a student, creator, or professional, you can follow easily.
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* FAQ 2 */}
               <div className="bg-white border border-[#0b3d2b]/15 rounded-none overflow-hidden transition-all duration-200">
                 <button 
                   onClick={() => toggleFaq(2)}
-                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between font-mono text-xs font-bold text-[#07130d] hover:bg-slate-50 transition duration-150 cursor-pointer"
+                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between font-[#07130d] font-mono text-xs font-bold hover:bg-slate-50 transition duration-150 cursor-pointer"
                 >
                   <span>2. Will I get the recording link?</span>
                   {activeFaq === 2 ? <ChevronUp className="w-4 h-4 text-[#0b3d2b]" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
                 </button>
-                <AnimatePresence initial={false}>
-                  {activeFaq === 2 && (
-                    <motion.div 
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden"
-                    >
-                      <p className="p-4 sm:p-5 pt-0 text-slate-500 text-xs sm:text-sm leading-relaxed border-t border-slate-100 font-medium bg-[#fafbf9]">
-                        Although we strongly recommend attending the live broadcast to participate in live project check-ins and live active building Q&A, yes: recording references will be shared within the candidate-only secure WhatsApp channel.
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {activeFaq === 2 && (
+                  <div className="overflow-hidden border-t border-slate-100 bg-[#fafbf9]">
+                    <p className="p-4 sm:p-5 text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">
+                      Although we strongly recommend attending the live broadcast to participate in live project check-ins and live active building Q&A, yes: recording references will be shared within the candidate-only secure WhatsApp channel.
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* FAQ 3 */}
               <div className="bg-white border border-[#0b3d2b]/15 rounded-none overflow-hidden transition-all duration-200">
                 <button 
                   onClick={() => toggleFaq(3)}
-                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between font-mono text-xs font-bold text-[#07130d] hover:bg-slate-50 transition duration-150 cursor-pointer"
+                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between font-[#07130d] font-mono text-xs font-bold hover:bg-slate-50 transition duration-150 cursor-pointer"
                 >
                   <span>3. Is coding background required?</span>
                   {activeFaq === 3 ? <ChevronUp className="w-4 h-4 text-[#0b3d2b]" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
                 </button>
-                <AnimatePresence initial={false}>
-                  {activeFaq === 3 && (
-                    <motion.div 
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden"
-                    >
-                      <p className="p-4 sm:p-5 pt-0 text-slate-500 text-xs sm:text-sm leading-relaxed border-t border-slate-100 font-medium bg-[#fafbf9]">
-                        Zero coding! This workshop is made completely for class 9–12 students, college beginners, creators, and freelancers. We use visual tools, straightforward prompting logic, and automation templates that anyone can implement easily.
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {activeFaq === 3 && (
+                  <div className="overflow-hidden border-t border-slate-100 bg-[#fafbf9]">
+                    <p className="p-4 sm:p-5 text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">
+                      Zero coding! This workshop is made completely for class 9–12 students, college beginners, creators, and freelancers. We use visual tools, straightforward prompting logic, and automation templates that anyone can implement easily.
+                    </p>
+                  </div>
+                )}
               </div>
 
             </div>
@@ -1165,75 +1096,54 @@ export default function WorkshopLandingPage() {
               <div className="bg-white border border-[#0b3d2b]/15 rounded-none overflow-hidden transition-all duration-200">
                 <button 
                   onClick={() => toggleFaq(4)}
-                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between font-mono text-xs font-bold text-[#07130d] hover:bg-slate-50 transition duration-150 cursor-pointer"
+                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between font-[#07130d] font-mono text-xs font-bold hover:bg-slate-50 transition duration-150 cursor-pointer"
                 >
                   <span>4. Will there be a real certificate?</span>
                   {activeFaq === 4 ? <ChevronUp className="w-4 h-4 text-[#0b3d2b]" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
                 </button>
-                <AnimatePresence initial={false}>
-                  {activeFaq === 4 && (
-                    <motion.div 
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden"
-                    >
-                      <p className="p-4 sm:p-5 pt-0 text-slate-500 text-xs sm:text-sm leading-relaxed border-t border-slate-100 font-medium bg-[#fafbf9]">
-                        Yes! Upon successfully attending the workshop and completing the simple project check-in link, a verified digital certificate issued by Vasudev AI Academy will be sent directly to your registered email address.
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {activeFaq === 4 && (
+                  <div className="overflow-hidden border-t border-slate-100 bg-[#fafbf9]">
+                    <p className="p-4 sm:p-5 text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">
+                      Yes! Upon successfully attending the workshop and completing the simple project check-in link, a verified digital certificate issued by Vasudev AI Academy will be sent directly to your registered email address.
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* FAQ 5 */}
               <div className="bg-white border border-[#0b3d2b]/15 rounded-none overflow-hidden transition-all duration-200">
                 <button 
                   onClick={() => toggleFaq(5)}
-                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between font-mono text-xs font-bold text-[#07130d] hover:bg-slate-50 transition duration-150 cursor-pointer"
+                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between font-[#07130d] font-mono text-xs font-bold hover:bg-slate-50 transition duration-150 cursor-pointer"
                 >
                   <span>5. How do I join the streaming?</span>
                   {activeFaq === 5 ? <ChevronUp className="w-4 h-4 text-[#0b3d2b]" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
                 </button>
-                <AnimatePresence initial={false}>
-                  {activeFaq === 5 && (
-                    <motion.div 
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden"
-                    >
-                      <p className="p-4 sm:p-5 pt-0 text-slate-500 text-xs sm:text-sm leading-relaxed border-t border-slate-100 font-medium bg-[#fafbf9]">
-                        Google Meet and live streaming access credentials will be delivered straight to your inbox and WhatsApp broadcast channel 30 minutes before Sunday, 10:00 AM IST. Make sure to reserve your seat beforehand!
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {activeFaq === 5 && (
+                  <div className="overflow-hidden border-t border-slate-100 bg-[#fafbf9]">
+                    <p className="p-4 sm:p-5 text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">
+                      Google Meet and live streaming access credentials will be delivered straight to your inbox and WhatsApp broadcast channel 30 minutes before Sunday, 10:00 AM IST. Make sure to reserve your seat beforehand!
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* FAQ 6 */}
               <div className="bg-white border border-[#0b3d2b]/15 rounded-none overflow-hidden transition-all duration-200">
                 <button 
                   onClick={() => toggleFaq(6)}
-                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between font-mono text-xs font-bold text-[#07130d] hover:bg-slate-50 transition duration-150 cursor-pointer"
+                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between font-[#07130d] font-mono text-xs font-bold hover:bg-slate-50 transition duration-150 cursor-pointer"
                 >
                   <span>6. Why is this workshop free?</span>
                   {activeFaq === 6 ? <ChevronUp className="w-4 h-4 text-[#0b3d2b]" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
                 </button>
-                <AnimatePresence initial={false}>
-                  {activeFaq === 6 && (
-                    <motion.div 
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden"
-                    >
-                      <p className="p-4 sm:p-5 pt-0 text-slate-500 text-xs sm:text-sm leading-relaxed border-t border-slate-100 font-medium bg-[#fafbf9]">
-                        Our primary goal is to foster high-scale digital literacy and curiosity among early learners, students, and young creators. It acts as our entry pathway to invite active dreamers into our inner circle community!
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {activeFaq === 6 && (
+                  <div className="overflow-hidden border-t border-slate-100 bg-[#fafbf9]">
+                    <p className="p-4 sm:p-5 text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">
+                      Our primary goal is to foster high-scale digital literacy and curiosity among early learners, students, and young creators. It acts as our entry pathway to invite active dreamers into our inner circle community!
+                    </p>
+                  </div>
+                )}
               </div>
 
             </div>
@@ -1320,64 +1230,56 @@ export default function WorkshopLandingPage() {
       </footer>
 
       {/* BOTTOM STICKY ENROLL BANNER FOR EASY SCROLL REGISTER */}
-      <AnimatePresence>
-        {isScrolled && !isRegistered && (
-          <motion.div
-            initial={{ y: 80, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 80, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 180, damping: 20 }}
-            className="fixed bottom-0 left-0 right-0 z-50 w-full bg-[#07130d] border-t border-[#0b3d2b]/30 text-white px-4 py-3 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] font-mono"
-          >
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-              
-              {/* Information */}
-              <div className="flex items-center space-x-3.5 text-center md:text-left justify-center md:justify-start">
-                <div className="hidden sm:flex w-8 h-8 rounded-full bg-emerald-500/10 items-center justify-center text-emerald-400 border border-emerald-500/20 animate-pulse">
-                  <Zap className="w-4 h-4" />
+      {isScrolled && !isRegistered && (
+        <div className="fixed bottom-0 left-0 right-0 z-50 w-full bg-[#07130d] border-t border-[#0b3d2b]/30 text-white px-4 py-3 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] font-mono">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            {/* Information */}
+            <div className="flex items-center space-x-3.5 text-center md:text-left justify-center md:justify-start">
+              <div className="hidden sm:flex w-8 h-8 rounded-full bg-emerald-500/10 items-center justify-center text-emerald-400 border border-emerald-500/20">
+                <Zap className="w-4 h-4" />
+              </div>
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="bg-amber-500 text-slate-950 text-[8px] tracking-widest uppercase font-black px-2 py-0.5 leading-none shrink-0">
+                    Limited Offer
+                  </span>
+                  <h5 className="font-display font-black text-xs text-white leading-none uppercase tracking-tight font-sans">
+                    Learn AI From Scratch Workshop
+                  </h5>
                 </div>
-                <div>
-                  <div className="flex items-center space-x-2">
-                    <span className="bg-amber-500 text-slate-950 text-[8px] tracking-widest uppercase font-black px-2 py-0.5 leading-none shrink-0">
-                      Limited Offer
-                    </span>
-                    <h5 className="font-display font-black text-xs text-white leading-none uppercase tracking-tight font-sans">
-                      Learn AI From Scratch Workshop
-                    </h5>
-                  </div>
-                  <div className="flex items-center space-x-2 mt-1.5 text-[11px] font-mono text-slate-350 justify-center md:justify-start">
-                    <span>Regular Fee:</span>
-                    <span className="line-through decoration-red-600 decoration-2 text-slate-500">₹2,999</span>
-                    <span className="font-bold text-emerald-400">₹0 (100% FREE Admission Today)</span>
-                  </div>
+                <div className="flex items-center space-x-2 mt-1.5 text-[11px] font-mono text-slate-350 justify-center md:justify-start">
+                  <span>Regular Fee:</span>
+                  <span className="line-through decoration-red-600 decoration-2 text-slate-500">₹2,999</span>
+                  <span className="font-bold text-emerald-400">₹0 (100% FREE Admission Today)</span>
                 </div>
               </div>
-
-              {/* Action buttons and timer */}
-              <div className="flex items-center justify-center gap-4 w-full md:w-auto">
-                <div className="hidden sm:flex items-center space-x-1 bg-slate-900 px-3 py-1.5 border border-slate-800 text-[11px]">
-                  <span className="text-slate-500 mr-1.5 font-bold">TIMER:</span>
-                  <span className="text-emerald-400 font-extrabold">{timeLeft.days}d</span>
-                  <span className="text-slate-600">:</span>
-                  <span className="text-emerald-400 font-extrabold">{timeLeft.hours}h</span>
-                  <span className="text-slate-600">:</span>
-                  <span className="text-emerald-400 font-extrabold">{timeLeft.minutes}m</span>
-                  <span className="text-slate-600">:</span>
-                  <span className="text-rose-500 animate-pulse font-extrabold">{timeLeft.seconds}s</span>
-                </div>
-
-                <a
-                  href="#registration-section"
-                  className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono text-[10.5px] uppercase tracking-wider font-extrabold py-2.5 px-5 border border-slate-950 shadow-[2px_2px_0px_#ffffff] hover:shadow-[1px_1px_0px_#ffffff] transition-all duration-150 text-center shrink-0"
-                >
-                  Start Learning Today
-                </a>
-              </div>
-
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+            {/* Action buttons and timer */}
+            <div className="flex items-center justify-center gap-4 w-full md:w-auto">
+              <div className="hidden sm:flex items-center space-x-1 bg-slate-900 px-3 py-1.5 border border-slate-800 text-[11px]">
+                <span className="text-slate-500 mr-1.5 font-bold">TIMER:</span>
+                <span className="text-emerald-400 font-extrabold">{timeLeft.days}d</span>
+                <span className="text-slate-600">:</span>
+                <span className="text-emerald-400 font-extrabold">{timeLeft.hours}h</span>
+                <span className="text-slate-600">:</span>
+                <span className="text-emerald-400 font-extrabold">{timeLeft.minutes}m</span>
+                <span className="text-slate-600">:</span>
+                <span className="text-rose-500 font-extrabold">{timeLeft.seconds}s</span>
+              </div>
+
+              <a
+                href="#registration-section"
+                className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono text-[10.5px] uppercase tracking-wider font-extrabold py-2.5 px-5 border border-slate-950 shadow-[2px_2px_0px_#ffffff] hover:shadow-[1px_1px_0px_#ffffff] transition-all duration-150 text-center shrink-0"
+              >
+                Start Learning Today
+              </a>
+            </div>
+
+          </div>
+        </div>
+      )}
 
     </div>
   );
@@ -1582,13 +1484,9 @@ function PromptLabSandbox() {
 
             {/* Output result */}
             {showResult && !isOptimizing && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-slate-300 whitespace-pre-line leading-relaxed font-mono text-[10.5px] overflow-y-auto max-h-[340px] pr-2 scrollbar-thin scrollbar-thumb-slate-800"
-              >
+              <div className="text-slate-300 whitespace-pre-line leading-relaxed font-mono text-[10.5px] overflow-y-auto max-h-[340px] pr-2 scrollbar-thin scrollbar-thumb-slate-800">
                 {current.optimized}
-              </motion.div>
+              </div>
             )}
           </div>
 
