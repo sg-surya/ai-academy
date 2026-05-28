@@ -37,6 +37,8 @@ import {
   Target
 } from 'lucide-react';
 
+import { motion, AnimatePresence } from 'motion/react';
+
 
 // Structuring leads type for Admin Viewer
 interface Lead {
@@ -322,7 +324,12 @@ export default function WorkshopLandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
             
             {/* Left Column: Premium copywriting, taglines, countdown, and core indicators */}
-            <div className="lg:col-span-7 flex flex-col justify-between space-y-8 bg-white border border-[#0b3d2b]/15 p-6 sm:p-10 shadow-sm relative">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="lg:col-span-7 flex flex-col justify-between space-y-8 bg-white border border-[#0b3d2b]/15 p-6 sm:p-10 shadow-sm relative"
+            >
               
               <div className="absolute top-0 right-0 bg-amber-500 text-slate-950 font-mono text-[10px] sm:text-xs font-black px-4 py-2 tracking-wider uppercase border-l-2 border-b-2 border-[#0b3d2b] flex items-center gap-1.5 shadow-[2px_2px_0px_rgba(7,19,13,0.15)]">
                 <Sparkles className="w-3.5 h-3.5 text-slate-950 fill-slate-950 shrink-0" />
@@ -420,10 +427,15 @@ export default function WorkshopLandingPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Right Column: Premium Active Interactive Form styled in clean strict sharp edges */}
-            <div className="lg:col-span-5 bg-white border-2 border-[#0b3d2b] p-6 sm:p-8 flex flex-col justify-between shadow-[6px_6px_0px_#0b3d2b] relative">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+              className="lg:col-span-5 bg-white border-2 border-[#0b3d2b] p-6 sm:p-8 flex flex-col justify-between shadow-[6px_6px_0px_#0b3d2b] relative"
+            >
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 mb-6 gap-3">
                   <div>
@@ -604,7 +616,7 @@ export default function WorkshopLandingPage() {
                 <span>VERIFIED PRESENTATION</span>
                 <span>COHORT BATCH #01</span>
               </div>
-            </div>
+            </motion.div>
 
           </div>
         </section>
@@ -627,7 +639,13 @@ export default function WorkshopLandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
             
             {/* Box 1: PART 1 — AI BASICS */}
-            <div className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0 }}
+              className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group"
+            >
               <div>
                 {/* Meta details header bar in bento style */}
                 <div className="flex items-center justify-between text-[9px] font-mono font-bold text-slate-400 mb-6 uppercase tracking-wider">
@@ -673,10 +691,16 @@ export default function WorkshopLandingPage() {
               <div className="absolute right-4 bottom-4 opacity-10 group-hover:scale-110 transition duration-300 pointer-events-none">
                 <BookOpen className="w-12 h-12 text-[#0b3d2b]" />
               </div>
-            </div>
+            </motion.div>
 
             {/* Box 2: PART 2 - AI TOOLS */}
-            <div className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group"
+            >
               <div>
                 <div className="flex items-center justify-between text-[9px] font-mono font-bold text-slate-400 mb-6 uppercase tracking-wider">
                   <span>Part 02</span>
@@ -720,10 +744,16 @@ export default function WorkshopLandingPage() {
               <div className="absolute right-4 bottom-4 opacity-10 group-hover:scale-110 transition duration-300 pointer-events-none">
                 <Cpu className="w-12 h-12 text-[#0b3d2b]" />
               </div>
-            </div>
+            </motion.div>
 
             {/* Box 3: PART 3 - PRACTICAL PROJECTS */}
-            <div className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group"
+            >
               <div>
                 <div className="flex items-center justify-between text-[9px] font-mono font-bold text-slate-400 mb-6 uppercase tracking-wider">
                   <span>Part 03</span>
@@ -763,10 +793,16 @@ export default function WorkshopLandingPage() {
               <div className="absolute right-4 bottom-4 opacity-10 group-hover:scale-110 transition duration-300 pointer-events-none">
                 <Sparkles className="w-12 h-12 text-amber-600" />
               </div>
-            </div>
+            </motion.div>
 
             {/* Box 4: PART 4 - CAREER & FUTURE */}
-            <div className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-600/30 transition-all duration-300 relative group"
+            >
               <div>
                 <div className="flex items-center justify-between text-[9px] font-mono font-bold text-slate-400 mb-6 uppercase tracking-wider">
                   <span>Part 04</span>
@@ -806,14 +842,20 @@ export default function WorkshopLandingPage() {
               <div className="absolute right-4 bottom-4 opacity-10 group-hover:scale-110 transition duration-300 pointer-events-none">
                 <Rocket className="w-12 h-12 text-[#0b3d2b]" />
               </div>
-            </div>
+            </motion.div>
 
           </div>
         </section>
 
         {/* NEW HIGHLY INTERACTIVE PREMIUM COMPONENT: LIVE PROMPT OPTIMIZATION LAB */}
         <section className="py-16 border-t border-slate-200/60 font-sans">
-          <div className="max-w-4xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="max-w-4xl mx-auto"
+          >
             
             {/* Component Header */}
             <div className="text-center mb-10">
@@ -836,7 +878,7 @@ export default function WorkshopLandingPage() {
               <PromptLabSandbox />
               
             </div>
-          </div>
+          </motion.div>
         </section>
 
         {/* SECTION 2: BIO & WORKSHOP STATS AS NESTED SHARP-BORDER BENTO CARDS */}
@@ -844,8 +886,12 @@ export default function WorkshopLandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             
             {/* Left Card: Speaker Biography Card */}
-            <div 
+            <motion.div 
               id="speaker" 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
               className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-10 flex flex-col justify-between"
             >
               <div>
@@ -890,11 +936,15 @@ export default function WorkshopLandingPage() {
                   <Sparkles className="w-3 h-3 text-slate-500 mr-1" /> Creator & Educator
                 </span>
               </div>
-            </div>
+            </motion.div>
 
             {/* Right Card: Dynamic Schedule & Platform Details Bento */}
-            <div 
+            <motion.div 
               id="workshop-details" 
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
               className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-10 flex flex-col justify-between relative overflow-hidden"
             >
               {/* Backglow decor */}
@@ -951,7 +1001,7 @@ export default function WorkshopLandingPage() {
                 </div>
               </div>
 
-            </div>
+            </motion.div>
 
           </div>
         </section>
@@ -961,7 +1011,13 @@ export default function WorkshopLandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Description Column */}
-            <div className="lg:col-span-6 space-y-6 text-left">
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="lg:col-span-6 space-y-6 text-left"
+            >
               <div className="inline-flex items-center space-x-1.5 bg-emerald-500/10 text-emerald-800 border border-emerald-500/25 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-wider">
                 <Award className="w-3.5 h-3.5" />
                 <span>Gain Credential</span>
@@ -997,10 +1053,16 @@ export default function WorkshopLandingPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Right Certificate Graphic Mockup */}
-            <div className="lg:col-span-6 flex justify-center">
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="lg:col-span-6 flex justify-center"
+            >
               <div className="bg-white border border-[#0b3d2b]/15 p-3.5 sm:p-5 shadow-sm hover:border-[#0b3d2b]/30 transition duration-300 relative">
                 <div className="absolute top-0 right-0 bg-[#0b3d2b] text-white font-mono text-[8px] px-2 py-0.5 uppercase tracking-wider font-bold">
                   Demo Template
@@ -1014,7 +1076,7 @@ export default function WorkshopLandingPage() {
                   referrerPolicy="no-referrer"
                 />
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
          {/* SECTION 4: FREQUENTLY ASKED QUESTIONS */}
@@ -1028,7 +1090,13 @@ export default function WorkshopLandingPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 max-w-5xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 max-w-5xl mx-auto"
+          >
             
             {/* Column Left */}
             <div className="space-y-3.5">
@@ -1148,12 +1216,18 @@ export default function WorkshopLandingPage() {
 
             </div>
 
-          </div>
+          </motion.div>
         </section>
 
         {/* SECTION 5: LOWER FOOTER ACTION CONTAINER */}
         <section id="registration-section" className="py-12">
-          <div className="bg-[#0b3d2b] text-white border-2 border-[#07130d] p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-[4px_4px_0px_#07130d]">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="bg-[#0b3d2b] text-white border-2 border-[#07130d] p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-[4px_4px_0px_#07130d]"
+          >
             <div className="absolute right-0 bottom-0 top-0 w-1/3 bg-gradient-to-l from-emerald-600/10 to-transparent pointer-events-none" />
             
             <div className="space-y-1.5 text-left relative z-10">
@@ -1175,7 +1249,7 @@ export default function WorkshopLandingPage() {
             >
               Register Free Now →
             </a>
-          </div>
+          </motion.div>
         </section>
 
 
