@@ -1,0 +1,43 @@
+{
+  "entities": {
+    "Registration": {
+      "title": "Registration",
+      "description": "User registration for the live AI workshop",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the user"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address of the user"
+        },
+        "phone": {
+          "type": "string",
+          "description": "WhatsApp contact number"
+        },
+        "role": {
+          "type": "string",
+          "description": "Role of the user (e.g. Student, Professional)"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Why they are joining or what they hope to learn"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "ISO or human-readable creation timestamp"
+        }
+      },
+      "required": ["name", "email", "phone", "role"]
+    }
+  },
+  "firestore": {
+    "/registrations/{registrationId}": {
+      "schema": "Registration",
+      "description": "Collection of registration submissions for the workshop"
+    }
+  }
+}

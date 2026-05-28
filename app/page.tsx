@@ -38,6 +38,8 @@ import {
 } from 'lucide-react';
 
 import { motion, AnimatePresence } from 'motion/react';
+import { db, handleFirestoreError, OperationType } from '../lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 
 // Structuring leads type for Admin Viewer
@@ -82,6 +84,7 @@ export default function WorkshopLandingPage() {
     reason: ''
   });
   const [formError, setFormError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Countdown States (Targeting the coming Sunday 10:00 AM IST)
   const [timeLeft, setTimeLeft] = useState({
@@ -204,23 +207,37 @@ export default function WorkshopLandingPage() {
   };
 
   // Submit Registration Form
-  const handleRegisterSubmit = (e: React.FormEvent) => {
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
+
     const { name, email, phone, role, reason } = formData;
 
     if (!name.trim()) return setFormError('Please enter your full name.');
     if (!email.trim() || !email.includes('@')) return setFormError('Please enter a valid email address.');
     if (!phone.trim() || phone.length < 8) return setFormError('Please enter a valid WhatsApp number.');
 
+    setIsSubmitting(true);
+    setFormError('');
+
+    const registrationId = 'ws-' + Math.random().toString(36).substring(2, 15);
     const newLead: Lead = {
-      id: 'ws-' + Math.random().toString(36).substring(2, 7),
+      id: registrationId,
       name: name.trim(),
       email: email.trim(),
       phone: phone.trim(),
       role: role,
       reason: reason.trim() || 'No feedback shared',
-      timestamp: new Date().toLocaleString()
+      timestamp: new Date().toISOString()
     };
+
+    try {
+      await setDoc(doc(db, 'registrations', registrationId), newLead);
+    } catch (error) {
+      setIsSubmitting(false);
+      handleFirestoreError(error, OperationType.CREATE, `registrations/${registrationId}`);
+      return;
+    }
 
     const savedLeadsStr = localStorage.getItem('vasudev_ai_leads');
     let savedLeads: Lead[] = [];
@@ -238,6 +255,7 @@ export default function WorkshopLandingPage() {
     
     setIsRegistered(true);
     setRegisteredEmail(email.trim());
+    setIsSubmitting(false);
     
     // Smooth scroll to top of success state card
     const formSection = document.getElementById('registration-section');
@@ -246,14 +264,7 @@ export default function WorkshopLandingPage() {
 
   // Upcoming Sunday date label in a localized readable format
   const getUpcomingDateString = () => {
-    const nextSunday = new Date();
-    nextSunday.setDate(nextSunday.getDate() + (7 - nextSunday.getDay()) % 7);
-    return nextSunday.toLocaleDateString('en-US', {
-      weekday: 'long',
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
+    return 'To Be Announced';
   };
 
   const toggleFaq = (idx: number) => {
@@ -404,27 +415,10 @@ export default function WorkshopLandingPage() {
                   </p>
                 </div>
 
-                {/* Highly Scaled up Countdown with custom ticks */}
-                <div className="flex items-center space-x-3 sm:space-x-4 bg-[#07130d] text-white px-6 py-4 rounded-none border-2 border-emerald-500/30 shadow-[4px_4px_0px_#0b3d2b]">
-                  <div className="text-center min-w-[42px] sm:min-w-[48px]">
-                    <span className="block font-mono text-2xl sm:text-3xl font-black text-emerald-400 tracking-tight leading-none">{timeLeft.days}</span>
-                    <span className="text-[8px] sm:text-[9px] text-slate-400 font-mono uppercase tracking-widest font-bold block mt-1">Days</span>
-                  </div>
-                  <span className="text-emerald-500/60 font-mono text-xl sm:text-2xl font-black shrink-0 animate-pulse leading-none">:</span>
-                  <div className="text-center min-w-[42px] sm:min-w-[48px]">
-                    <span className="block font-mono text-2xl sm:text-3xl font-black text-emerald-400 tracking-tight leading-none">{timeLeft.hours}</span>
-                    <span className="text-[8px] sm:text-[9px] text-slate-400 font-mono uppercase tracking-widest font-bold block mt-1">Hours</span>
-                  </div>
-                  <span className="text-emerald-500/60 font-mono text-xl sm:text-2xl font-black shrink-0 animate-pulse leading-none">:</span>
-                  <div className="text-center min-w-[42px] sm:min-w-[48px]">
-                    <span className="block font-mono text-2xl sm:text-3xl font-black text-emerald-400 tracking-tight leading-none">{timeLeft.minutes}</span>
-                    <span className="text-[8px] sm:text-[9px] text-slate-400 font-mono uppercase tracking-widest font-bold block mt-1">Mins</span>
-                  </div>
-                  <span className="text-emerald-500/60 font-mono text-xl sm:text-2xl font-black shrink-0 animate-pulse leading-none">:</span>
-                  <div className="text-center min-w-[42px] sm:min-w-[48px]">
-                    <span className="block font-mono text-2xl sm:text-3xl font-black text-rose-500 tracking-tight animate-pulse leading-none">{timeLeft.seconds}</span>
-                    <span className="text-[8px] sm:text-[9px] text-slate-400 font-mono uppercase tracking-widest font-bold block mt-1">Secs</span>
-                  </div>
+                {/* Live Session Date & Time Badge */}
+                <div className="flex flex-col items-center justify-center bg-[#07130d] text-white px-6 py-4.5 rounded-none border-2 border-emerald-500/30 shadow-[4px_4px_0px_#0b3d2b] min-w-[200px] text-center">
+                  <span className="block text-[9px] text-amber-500 font-mono uppercase font-black tracking-widest mb-1.5">LIVE SESSION SCHEDULE</span>
+                  <span className="block font-mono text-xs sm:text-sm font-black text-emerald-400 uppercase tracking-widest animate-pulse-glow">To Be Announced</span>
                 </div>
               </div>
             </motion.div>
@@ -580,21 +574,24 @@ export default function WorkshopLandingPage() {
                         </div>
                         <div className="text-slate-700 leading-relaxed font-semibold">
                           <strong>Date:</strong> {getUpcomingDateString()}<br />
-                          <strong>Time:</strong> 10:00 AM IST (Live)<br />
+                          <strong>Time:</strong> To Be Announced (Updates inside WhatsApp Group)<br />
                           <strong>Access:</strong> Google Meet Workspace Links
                         </div>
                       </div>
                       
                       {/* WhatsApp Funnel Element */}
                       <div className="pt-2">
+                        <p className="text-xs text-amber-600 font-extrabold uppercase font-mono mb-2 text-center">
+                          ⚠️ Action Required: Join the WhatsApp Group Below!
+                        </p>
                         <a 
-                          href="https://chat.whatsapp.com/invite/vasudevai"
+                          href="https://chat.whatsapp.com/LxRtUPfuXws0ho8QmSzmsQ"
                           target="_blank"
                           rel="noreferrer"
                           className="inline-flex w-full items-center justify-center space-x-2 bg-[#1ea853] hover:bg-[#188c44] text-white py-3.5 px-4 font-mono text-[10px] tracking-wider uppercase font-extrabold transition duration-150 hover:shadow-md"
                         >
                           <Phone className="w-4 h-4 text-white shrink-0" />
-                          <span>Join Exclusive Candidates WhatsApp Group</span>
+                          <span>Join Official Candidates WhatsApp Group</span>
                         </a>
                       </div>
 
@@ -969,7 +966,7 @@ export default function WorkshopLandingPage() {
                     <Clock className="w-5 h-5 text-slate-400 mt-0.5 shrink-0" />
                     <div>
                       <span className="block text-[9px] text-slate-400 font-mono uppercase font-black">Time</span>
-                      <span className="text-sm font-extrabold text-[#07130d]">10:00 AM IST (Live Session)</span>
+                      <span className="text-sm font-extrabold text-[#07130d]">To Be Announced</span>
                     </div>
                   </div>
 
@@ -1191,7 +1188,7 @@ export default function WorkshopLandingPage() {
                 {activeFaq === 5 && (
                   <div className="overflow-hidden border-t border-slate-100 bg-[#fafbf9]">
                     <p className="p-4 sm:p-5 text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">
-                      Google Meet and live streaming access credentials will be delivered straight to your inbox and WhatsApp broadcast channel 30 minutes before Sunday, 10:00 AM IST. Make sure to reserve your seat beforehand!
+                      Google Meet and live streaming access credentials will be delivered straight to your inbox and WhatsApp broadcast channel 30 minutes before the workshop starts. Since the date and time are To Be Announced, we will update all registered candidates as soon as the schedule is finalized!
                     </p>
                   </div>
                 )}
