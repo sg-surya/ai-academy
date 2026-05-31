@@ -906,70 +906,162 @@ export default function WorkshopLandingPage() {
 
         {/* SECTION 2: BIO & WORKSHOP STATS AS NESTED SHARP-BORDER BENTO CARDS */}
         <section className="py-12 border-t border-slate-200/60">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             
-            {/* Left Card: Speaker Biography Card */}
+            {/* Full-width Hosts Card */}
             <motion.div 
               id="speaker" 
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-10 flex flex-col justify-between"
             >
               <div>
                 <span className="block text-[8px] font-mono tracking-wider font-extrabold text-slate-400 uppercase mb-5">
-                  ABOUT THE HOST / INSTRUCTOR
+                  ABOUT THE HOSTS / INSTRUCTORS
                 </span>
                 
-                <div className="flex items-center space-x-5 mb-6">
-                  <div className="w-16 h-16 rounded-full overflow-hidden bg-slate-100 border border-[#0b3d2b]/20 flex items-center justify-center relative">
-                    <Image 
-                      src="/Speaker.png" 
-                      alt="Surya Pratap Singh" 
-                      fill
-                      sizes="64px"
-                      className="object-cover"
-                      referrerPolicy="no-referrer"
-                    />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                {/* Surya Pratap Singh */}
+                <div className="border border-slate-100 p-5">
+                  <div className="flex items-center space-x-5 mb-6">
+                    <div className="w-16 h-16 rounded-full overflow-hidden bg-slate-100 border border-[#0b3d2b]/20 flex items-center justify-center relative shrink-0">
+                      <Image 
+                        src="/Speaker.png" 
+                        alt="Surya Pratap Singh" 
+                        fill
+                        sizes="64px"
+                        className="object-cover"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="font-display text-lg sm:text-xl font-black text-[#07130d] leading-none">
+                        Surya Pratap Singh
+                      </h4>
+                      <span className="text-xs text-emerald-800 font-mono font-extrabold mt-1.5 block">
+                        Founder, Vasudev AI Academy
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-display text-lg sm:text-xl font-black text-[#07130d] leading-none">
-                      Surya Pratap Singh
-                    </h4>
-                    <span className="text-xs text-emerald-800 font-mono font-extrabold mt-1.5 block">
-                      Founder, Vasudev AI Academy
+
+                  <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 font-medium">
+                    Surya Pratap Singh is the Founder of Vasudev AI Academy and the creator of Vasudev AI. Passionate about Artificial Intelligence, automation, and emerging technologies, he focuses on building practical AI solutions that make advanced technology accessible to everyone.
+                  </p>
+                  <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 font-medium">
+                    Over the years, he has explored a wide range of modern AI tools, development platforms, and automation systems, working on projects involving AI assistants, local AI deployment, web applications, and intelligent workflows.
+                  </p>
+                  <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 font-medium">
+                    His mission is to help students, creators, and professionals move beyond simply using AI tools and learn how to build with them. Through Vasudev AI Academy, he aims to make AI education practical, beginner-friendly, and future-focused.
+                  </p>
+
+                  <div className="mb-4">
+                    <span className="block text-[9px] font-mono font-extrabold text-slate-400 uppercase tracking-wider mb-2">
+                      Areas of Expertise
                     </span>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="inline-flex items-center bg-emerald-500/5 border border-emerald-500/20 text-[#0b3d2b] font-mono text-[9px] font-bold py-1 px-2.5">
+                        <Check className="w-3 h-3 mr-1 text-[#0b3d2b]" /> Artificial Intelligence
+                      </span>
+                      <span className="inline-flex items-center bg-emerald-500/5 border border-emerald-500/20 text-[#0b3d2b] font-mono text-[9px] font-bold py-1 px-2.5">
+                        <Zap className="w-3 h-3 mr-1 text-[#0b3d2b]" /> AI Automation
+                      </span>
+                      <span className="inline-flex items-center bg-amber-500/10 border border-amber-500/15 text-amber-800 font-mono text-[9px] font-bold py-1 px-2.5">
+                        <Cpu className="w-3 h-3 text-amber-600 mr-1" /> AI Assistants
+                      </span>
+                      <span className="inline-flex items-center bg-slate-100 border border-slate-200 text-slate-600 font-mono text-[9px] font-bold py-1 px-2.5">
+                        <Code className="w-3 h-3 text-slate-500 mr-1" /> Web Development
+                      </span>
+                      <span className="inline-flex items-center bg-slate-100 border border-slate-200 text-slate-600 font-mono text-[9px] font-bold py-1 px-2.5">
+                        <Rocket className="w-3 h-3 text-slate-500 mr-1" /> Product Building
+                      </span>
+                      <span className="inline-flex items-center bg-slate-100 border border-slate-200 text-slate-600 font-mono text-[9px] font-bold py-1 px-2.5">
+                        <BookOpen className="w-3 h-3 text-slate-500 mr-1" /> Technology Education
+                      </span>
+                    </div>
                   </div>
+
+                  <p className="text-slate-400 text-xs italic font-medium border-l-2 border-emerald-500/30 pl-3">
+                    &quot;Don&apos;t just use AI. Learn how to build with it.&quot;
+                  </p>
                 </div>
 
-                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-6 font-medium">
-                  Hi! I am Surya, an AI builder, developer, and digital content creator. My goal with Vasudev AI Academy is to break down complex AI, LLMs, and automation into simple, engaging, and practical mental frameworks. No boring jargon or endless lines of complex code—we focus entirely on tools, workflows, and hands-on project creation.
-                </p>
-              </div>
+                {/* Aman Dangi */}
+                <div className="border border-slate-100 p-5">
+                  <div className="flex items-center space-x-5 mb-6">
+                    <div className="w-16 h-16 rounded-full overflow-hidden bg-slate-100 border border-[#0b3d2b]/20 flex items-center justify-center relative">
+                      <Image 
+                        src="/Aman.png" 
+                        alt="Aman Dangi" 
+                        fill
+                        sizes="64px"
+                        className="object-cover"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="font-display text-lg sm:text-xl font-black text-[#07130d] leading-none">
+                        Aman Dangi
+                      </h4>
+                      <span className="text-xs text-emerald-800 font-mono font-extrabold mt-1.5 block">
+                        Co-Founder &amp; Developer, Vasudev AI
+                      </span>
+                    </div>
+                  </div>
 
-              {/* Badges row */}
-              <div className="flex flex-wrap gap-2 pt-5 border-t border-slate-100 items-center">
-                <span className="inline-flex items-center bg-emerald-500/5 border border-emerald-500/20 text-[#0b3d2b] font-mono text-[9px] font-bold py-1 px-2.5">
-                  <Check className="w-3 h-3 mr-1 text-[#0b3d2b]" /> AI Developer
-                </span>
-                <span className="inline-flex items-center bg-amber-500/10 border border-amber-500/15 text-amber-800 font-mono text-[9px] font-bold py-1 px-2.5">
-                  <Zap className="w-3 h-3 text-amber-600 fill-amber-500 mr-1" /> Automation Architect
-                </span>
-                <span className="inline-flex items-center bg-slate-100 border border-slate-200 text-slate-600 font-mono text-[9px] font-bold py-1 px-2.5">
-                  <Sparkles className="w-3 h-3 text-slate-500 mr-1" /> Creator & Educator
-                </span>
+                  <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 font-medium">
+                    Aman Dangi is a Developer and Co-Founder of Vasudev AI with experience in building modern web applications, SaaS platforms, and AI-powered solutions.
+                  </p>
+                  <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 font-medium">
+                    He has collaborated on projects involving full-stack development, AI integrations, automation systems, and scalable digital products. His work focuses on combining technology, innovation, and user-centric design to solve real-world challenges.
+                  </p>
+                  <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 font-medium">
+                    Passionate about continuous learning and product development, Aman enjoys exploring emerging technologies and helping aspiring developers understand how modern software and AI systems are built.
+                  </p>
+
+                  <div className="mb-4">
+                    <span className="block text-[9px] font-mono font-extrabold text-slate-400 uppercase tracking-wider mb-2">
+                      Areas of Expertise
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="inline-flex items-center bg-emerald-500/5 border border-emerald-500/20 text-[#0b3d2b] font-mono text-[9px] font-bold py-1 px-2.5">
+                        <Code className="w-3 h-3 mr-1 text-[#0b3d2b]" /> Full-Stack Development
+                      </span>
+                      <span className="inline-flex items-center bg-emerald-500/5 border border-emerald-500/20 text-[#0b3d2b] font-mono text-[9px] font-bold py-1 px-2.5">
+                        <Rocket className="w-3 h-3 mr-1 text-[#0b3d2b]" /> SaaS Applications
+                      </span>
+                      <span className="inline-flex items-center bg-amber-500/10 border border-amber-500/15 text-amber-800 font-mono text-[9px] font-bold py-1 px-2.5">
+                        <Cpu className="w-3 h-3 text-amber-600 mr-1" /> AI-Powered Solutions
+                      </span>
+                      <span className="inline-flex items-center bg-slate-100 border border-slate-200 text-slate-600 font-mono text-[9px] font-bold py-1 px-2.5">
+                        <Target className="w-3 h-3 text-slate-500 mr-1" /> Product Engineering
+                      </span>
+                      <span className="inline-flex items-center bg-slate-100 border border-slate-200 text-slate-600 font-mono text-[9px] font-bold py-1 px-2.5">
+                        <Zap className="w-3 h-3 text-slate-500 mr-1" /> Automation Systems
+                      </span>
+                      <span className="inline-flex items-center bg-slate-100 border border-slate-200 text-slate-600 font-mono text-[9px] font-bold py-1 px-2.5">
+                        <Sparkles className="w-3 h-3 text-slate-500 mr-1" /> Startup Innovation
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-slate-400 text-xs italic font-medium border-l-2 border-emerald-500/30 pl-3">
+                    &quot;The future belongs to those who build, experiment, and keep learning.&quot;
+                  </p>
+                </div>
               </div>
+            </div>
             </motion.div>
 
-            {/* Right Card: Dynamic Schedule & Platform Details Bento */}
+            {/* Bento Card: Workshop Access Criteria */}
             <motion.div 
               id="workshop-details" 
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-10 flex flex-col justify-between relative overflow-hidden"
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
+              className="bg-white border border-[#0b3d2b]/15 p-6 sm:p-10 flex flex-col justify-between relative overflow-hidden mt-8"
             >
               {/* Backglow decor */}
               <div className="absolute -right-20 -bottom-20 w-44 h-44 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
@@ -984,7 +1076,7 @@ export default function WorkshopLandingPage() {
                     <Calendar className="w-5 h-5 text-slate-400 mt-0.5 shrink-0" />
                     <div>
                       <span className="block text-[9px] text-slate-400 font-mono uppercase font-black">Date</span>
-                      <span className="text-sm font-extrabold text-[#07130d]">{getUpcomingDateString()}</span>
+                      <span className="text-sm font-extrabold text-[#07130d]">31 May 2026</span>
                     </div>
                   </div>
 
@@ -992,7 +1084,7 @@ export default function WorkshopLandingPage() {
                     <Clock className="w-5 h-5 text-slate-400 mt-0.5 shrink-0" />
                     <div>
                       <span className="block text-[9px] text-slate-400 font-mono uppercase font-black">Time</span>
-                      <span className="text-sm font-extrabold text-[#07130d]">To Be Announced</span>
+                      <span className="text-sm font-extrabold text-[#07130d]">10:00 AM</span>
                     </div>
                   </div>
 
@@ -1027,7 +1119,6 @@ export default function WorkshopLandingPage() {
 
             </motion.div>
 
-          </div>
         </section>
 
         <AudienceSection />
