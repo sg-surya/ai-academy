@@ -369,9 +369,15 @@ export default function WorkshopLandingPage() {
                   </div>
                   <div className="bg-amber-500/10 border border-amber-500/20 p-3 text-center">
                     <p className="text-[10px] font-mono font-extrabold text-amber-800 uppercase tracking-wider">
-                      Certificate Verification Available on /verify
+                      Certificate Verification Available
                     </p>
                   </div>
+                  <a
+                    href="/verify"
+                    className="inline-block w-full bg-[#0b3d2b] hover:bg-[#0a3525] text-white font-mono text-xs font-black uppercase tracking-wider px-6 py-3.5 border-2 border-[#0b3d2b] shadow-[3px_3px_0px_#07130d] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_#07130d] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all duration-150"
+                  >
+                    Verify Certificate →
+                  </a>
                 </div>
               </div>
 
