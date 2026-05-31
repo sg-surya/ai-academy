@@ -409,7 +409,7 @@ export default function WorkshopLandingPage() {
                   <div className="flex items-center justify-center sm:justify-start space-x-1.5 mb-1.5">
                     <Target className="w-4 h-4 text-emerald-700 shrink-0" />
                     <span className="block text-[10px] sm:text-xs font-mono tracking-widest text-[#0b3d2b] font-black uppercase">
-                      STATUS: COHORT STARTING SOON
+                      STATUS: WORKSHOP COMPLETED
                     </span>
                   </div>
                   <p className="text-[#0b3d2b] font-extrabold text-sm">
@@ -419,28 +419,8 @@ export default function WorkshopLandingPage() {
 
                 {/* Live Session Date & Time Badge */}
                 <div className="flex flex-col items-center justify-center bg-[#07130d] text-white px-6 py-5 rounded-none border-2 border-emerald-500/30 shadow-[4px_4px_0px_#0b3d2b] min-w-[240px] text-center">
-                  <span className="block text-[9px] text-amber-500 font-mono uppercase font-black tracking-widest mb-3">LIVE SESSION SCHEDULE</span>
-                  <div className="flex items-center justify-center space-x-2.5 font-mono">
-                    <div className="flex flex-col items-center">
-                      <span className="text-lg sm:text-xl font-black text-emerald-400 leading-none">{timeLeft.days}</span>
-                      <span className="text-[8px] text-slate-400 font-bold uppercase mt-1">Days</span>
-                    </div>
-                    <span className="text-slate-600 font-bold text-lg leading-none -mt-3">:</span>
-                    <div className="flex flex-col items-center">
-                      <span className="text-lg sm:text-xl font-black text-emerald-400 leading-none">{timeLeft.hours}</span>
-                      <span className="text-[8px] text-slate-400 font-bold uppercase mt-1">Hours</span>
-                    </div>
-                    <span className="text-slate-600 font-bold text-lg leading-none -mt-3">:</span>
-                    <div className="flex flex-col items-center">
-                      <span className="text-lg sm:text-xl font-black text-emerald-400 leading-none">{timeLeft.minutes}</span>
-                      <span className="text-[8px] text-slate-400 font-bold uppercase mt-1">Mins</span>
-                    </div>
-                    <span className="text-slate-600 font-bold text-lg leading-none -mt-3">:</span>
-                    <div className="flex flex-col items-center">
-                      <span className="text-lg sm:text-xl font-black text-rose-500 leading-none">{timeLeft.seconds}</span>
-                      <span className="text-[8px] text-slate-400 font-bold uppercase mt-1">Secs</span>
-                    </div>
-                  </div>
+                  <span className="block text-[10px] text-amber-500 font-mono uppercase font-black tracking-widest mb-1">CURRENT STATUS</span>
+                  <span className="text-xl sm:text-2xl font-black text-emerald-400 leading-tight uppercase tracking-wide">Workshop Completed</span>
                 </div>
               </div>
             </motion.div>
@@ -1453,14 +1433,8 @@ export default function WorkshopLandingPage() {
             {/* Action buttons and timer */}
             <div className="flex items-center justify-center gap-4 w-full md:w-auto">
               <div className="hidden sm:flex items-center space-x-1 bg-slate-900 px-3 py-1.5 border border-slate-800 text-[11px]">
-                <span className="text-slate-500 mr-1.5 font-bold">TIMER:</span>
-                <span className="text-emerald-400 font-extrabold">{timeLeft.days}d</span>
-                <span className="text-slate-600">:</span>
-                <span className="text-emerald-400 font-extrabold">{timeLeft.hours}h</span>
-                <span className="text-slate-600">:</span>
-                <span className="text-emerald-400 font-extrabold">{timeLeft.minutes}m</span>
-                <span className="text-slate-600">:</span>
-                <span className="text-rose-500 font-extrabold">{timeLeft.seconds}s</span>
+                <span className="text-slate-500 mr-1.5 font-bold">STATUS:</span>
+                <span className="text-emerald-400 font-extrabold uppercase">Workshop Completed</span>
               </div>
 
               <a

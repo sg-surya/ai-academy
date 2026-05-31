@@ -66,6 +66,38 @@ export default function SlidesPage() {
   const [activePanel, setActivePanel] = useState<string | null>(null);
   const dockPanelRef = useRef<HTMLDivElement>(null);
 
+  // ── Recent slidesets state ─────────────────────────────────────
+  const [recentSets, setRecentSets] = useState<{ name: string; timestamp: string; fileCount: number }[]>([]);
+  const [loadingRecent, setLoadingRecent] = useState(false);
+  const currentFolderName = useRef('');
+
+  const fetchRecent = useCallback(async () => {
+    setLoadingRecent(true);
+    try {
+      const res = await fetch('/api/slides/list');
+      const data = await res.json();
+      setRecentSets(data.slidesets || []);
+    } catch {} finally {
+      setLoadingRecent(false);
+    }
+  }, []);
+
+  useEffect(() => { fetchRecent(); }, [fetchRecent]);
+
+  // ── Save uploaded files ────────────────────────────────────────
+  const saveSlideset = useCallback(async (name: string, map: Map<string, string>) => {
+    const obj: Record<string, string> = {};
+    for (const [k, v] of map) obj[k] = v;
+    try {
+      await fetch('/api/slides/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, files: obj }),
+      });
+      fetchRecent();
+    } catch {}
+  }, [fetchRecent]);
+
   // ── Countdown timer state ─────────────────────────────────────
   const [cdMinutes, setCdMinutes] = useState(5);
   const [cdSeconds, setCdSeconds] = useState(0);
@@ -91,7 +123,7 @@ export default function SlidesPage() {
   }, [activePanel]);
 
   // ── File processing ──────────────────────────────────────────
-  const processFiles = useCallback((map: Map<string, string>) => {
+  const processFiles = useCallback((map: Map<string, string>, folderName?: string) => {
     setError('');
     const slides: string[] = [];
     for (const [path] of map) {
@@ -114,7 +146,32 @@ export default function SlidesPage() {
     setDrawings(new Map());
     setUploaded(true);
     setLoading(false);
-  }, []);
+
+    // Save to disk in background
+    const name = folderName || `slideset-${Date.now()}`;
+    saveSlideset(name, map);
+  }, [saveSlideset]);
+
+  // ── Load saved slideset ────────────────────────────────────────
+  const loadSlideset = useCallback(async (name: string) => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/slides/load', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name }),
+      });
+      const data = await res.json();
+      if (data.files) {
+        const entries = Object.entries(data.files) as [string, string][];
+        const map = new Map<string, string>(entries);
+        processFiles(map);
+      }
+    } catch {
+      setError('Failed to load slideset');
+      setLoading(false);
+    }
+  }, [processFiles]);
 
   const readEntry = useCallback(async (
     entry: FileSystemEntry, base = ''
@@ -141,16 +198,18 @@ export default function SlidesPage() {
     setDragOver(false);
     setLoading(true);
     const map = new Map<string, string>();
+    let folderName = '';
     await Promise.all(
       Array.from(e.dataTransfer.items).map(async (item) => {
         const entry = item.webkitGetAsEntry();
         if (entry) {
+          if (!folderName) folderName = entry.name;
           const results = await readEntry(entry);
           for (const r of results) map.set(r.path.replace(/\\/g, '/'), r.content);
         }
       })
     );
-    processFiles(map);
+    processFiles(map, folderName);
   }, [readEntry, processFiles]);
 
   const handleDragOver = (e: React.DragEvent) => { e.preventDefault(); setDragOver(true); };
@@ -161,6 +220,7 @@ export default function SlidesPage() {
     if (!fl || fl.length === 0) return;
     setLoading(true);
     const map = new Map<string, string>();
+    const folderName = fl[0].webkitRelativePath.split('/')[0];
     for (let i = 0; i < fl.length; i++) {
       const file = fl[i];
       const rel = file.webkitRelativePath.replace(/\\/g, '/');
@@ -169,7 +229,7 @@ export default function SlidesPage() {
         map.set(path, await file.text());
       }
     }
-    processFiles(map);
+    processFiles(map, folderName);
     e.target.value = '';
   };
 
@@ -184,9 +244,17 @@ export default function SlidesPage() {
     if (!slidePaths[currentIdx]) return '';
     const html = files.get(slidePaths[currentIdx]) || '';
     const css = getThemeCss();
+    const responsiveReset = `
+      *{margin:0;padding:0;box-sizing:border-box}
+      html,body{width:100%;height:100%;overflow:hidden}
+      body{display:flex;align-items:center;justify-content:center}
+      #slide-wrap{width:100%;height:100%;max-width:100%;max-height:100%;overflow:auto;display:flex;align-items:center;justify-content:center}
+      img,video,svg,canvas,table,iframe{max-width:100%!important;height:auto!important}
+    `;
     return `<!DOCTYPE html>
-<html><head><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden}${css}</style></head>
-<body>${html}</body></html>`;
+<html><head><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<style>${responsiveReset}${css}</style></head>
+<body><div id="slide-wrap">${html}</div></body></html>`;
   }, [files, slidePaths, currentIdx, getThemeCss]);
 
   const goNext = () => { if (currentIdx < slidePaths.length - 1) setCurrentIdx((i) => i + 1); };
@@ -432,6 +500,40 @@ export default function SlidesPage() {
     2page.html
     3page.html`}</pre>
             </div>
+            {/* ── Recent Slidesets ── */}
+            {recentSets.length > 0 && (
+              <div className="mt-8">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-[9px] font-mono font-extrabold text-slate-400 uppercase tracking-wider flex items-center">
+                    <Clock className="w-3 h-3 mr-1.5" /> Recent
+                  </span>
+                  {loadingRecent && <div className="w-3 h-3 border-2 border-[#0b3d2b] border-t-transparent rounded-full animate-spin" />}
+                </div>
+                <div className="space-y-2">
+                  {recentSets.map((set) => (
+                    <div key={set.name}
+                      className="flex items-center justify-between bg-white border border-slate-200 px-4 py-3 hover:border-[#0b3d2b]/30 transition-colors">
+                      <div className="flex items-center space-x-3 min-w-0">
+                        <div className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
+                          <FileText className="w-4 h-4 text-emerald-600" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-mono font-bold text-[#07130d] truncate">{set.name}</p>
+                          <p className="text-[9px] font-mono text-slate-400">
+                            {new Date(set.timestamp).toLocaleDateString()} · {set.fileCount} files
+                          </p>
+                        </div>
+                      </div>
+                      <button onClick={() => loadSlideset(set.name)}
+                        className="ml-3 shrink-0 px-3 py-1.5 text-[10px] font-mono font-bold bg-[#0b3d2b] text-white hover:bg-[#0a3525] transition-colors">
+                        Load
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {error && (
               <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }}
                 className="mt-5 bg-rose-50 border-2 border-rose-200 px-4 py-3 flex items-center space-x-2">
