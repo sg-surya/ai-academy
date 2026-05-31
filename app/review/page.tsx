@@ -6,7 +6,7 @@ export default function ReviewPage() {
     <div className="min-h-screen bg-[#fcfdfd] flex flex-col">
       <div className="border-b border-slate-200/60 bg-white">
         <div className="px-4 sm:px-8 lg:px-16 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2 text-slate-500 hover:text-[#0b3d2b] transition-colors text-xs font-mono font-bold group">
+          <Link href="/cohot-1-Lean-ai-from-scratch" className="flex items-center space-x-2 text-slate-500 hover:text-[#0b3d2b] transition-colors text-xs font-mono font-bold group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             <span>Back</span>
           </Link>
