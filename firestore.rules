@@ -26,12 +26,33 @@ service cloud.firestore {
         && data.timestamp is string && data.timestamp.size() <= 100;
     }
 
+    function isValidReview(data) {
+      return data.keys().hasAll(['name', 'email', 'phone', 'city', 'rating', 'enjoyed', 'improve', 'recommend', 'futureTopics', 'timestamp'])
+        && data.keys().size() == 10
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 200
+        && data.email is string && data.email.size() > 0 && data.email.size() <= 200
+        && data.phone is string && data.phone.size() > 0 && data.phone.size() <= 50
+        && data.city is string && data.city.size() > 0 && data.city.size() <= 200
+        && data.rating is number && data.rating >= 1 && data.rating <= 5
+        && data.enjoyed is string && data.enjoyed.size() <= 2000
+        && data.improve is string && data.improve.size() <= 2000
+        && data.recommend is string && data.recommend.size() > 0 && data.recommend.size() <= 50
+        && data.futureTopics is string && data.futureTopics.size() <= 2000
+        && data.timestamp is string && data.timestamp.size() <= 100;
+    }
+
     // Registrations rules
     match /registrations/{registrationId} {
       // Allow guests to submit registrations securely
       allow create: if isValidId(registrationId) && isValidRegistration(incoming());
       
       // Restrict reads and updates from non-console clients to protect personal user data
+      allow read, update, delete: if false;
+    }
+
+    // Reviews rules
+    match /reviews/{reviewId} {
+      allow create: if isValidId(reviewId) && isValidReview(incoming());
       allow read, update, delete: if false;
     }
   }
