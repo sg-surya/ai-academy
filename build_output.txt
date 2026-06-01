@@ -1,0 +1,16 @@
+   ▲ Next.js 15.5.18
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 4.5s
+   Skipping linting
+   Checking validity of types ...
+   Collecting page data ...
+
+> Build error occurred
+[Error: ENOENT: no such file or directory, open 'C:\Users\SURYA PRATAP SINGH\.gemini\antigravity\scratch\ai-academy\.next\server\pages-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\SURYA PRATAP SINGH\\.gemini\\antigravity\\scratch\\ai-academy\\.next\\server\\pages-manifest.json'
+}

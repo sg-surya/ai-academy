@@ -1,29 +1,47 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Search, Award, User, Calendar, FileText, TicketCheck, ExternalLink } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Award, User, Calendar, FileText, TicketCheck, ExternalLink, Loader } from 'lucide-react';
 import Link from 'next/link';
 
-const dummyCert = {
-  id: 'VAA-CERT-2026-0042',
-  name: 'Aarav Sharma',
-  workshop: 'Learn AI From Scratch — Free Live Workshop',
-  date: 'May 31, 2026',
-  status: 'Verified',
-  issuer: 'Vasudev AI Academy',
-};
+interface CertData {
+  id: string;
+  name: string;
+  workshop: string;
+  date: string;
+  status: string;
+  issuer: string;
+}
 
 export default function VerifyPage() {
   const [certId, setCertId] = useState('');
-  const [result, setResult] = useState<typeof dummyCert | null>(null);
+  const [result, setResult] = useState<CertData | null>(null);
   const [searched, setSearched] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     setSearched(true);
-    if (certId.trim().toLowerCase() === dummyCert.id.toLowerCase()) {
-      setResult(dummyCert);
-    } else {
+    setLoading(true);
+    setResult(null);
+    setErrorMsg(null);
+    try {
+      const res = await fetch(`/api/verify?id=${encodeURIComponent(certId.trim())}`);
+      if (res.ok) {
+        const data = await res.json();
+        setResult(data as CertData);
+      } else {
+        const errData = await res.json().catch(() => ({ error: 'Unknown error' }));
+        setErrorMsg(errData.error || 'Certificate not found');
+        setResult(null);
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Unknown error';
+      console.error('Verification error:', msg);
+      setErrorMsg(msg);
       setResult(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,26 +99,35 @@ export default function VerifyPage() {
               value={certId}
               onChange={(e) => setCertId(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') handleVerify(); }}
-              placeholder="Enter Certificate ID (e.g. VAA-CERT-2026-0042)"
+              placeholder="Enter Certificate ID (e.g. VAI26-C01-001)"
               className="flex-1 bg-white border-2 border-slate-200 px-4 py-3.5 text-sm text-slate-900 placeholder-slate-400 font-semibold focus:outline-none focus:border-[#0b3d2b] transition-all duration-200"
             />
             <button
               type="button"
               onClick={handleVerify}
-              className="bg-[#0b3d2b] hover:bg-[#0a3525] text-white font-mono text-xs font-black uppercase tracking-wider px-6 py-3.5 border-2 border-[#0b3d2b] shadow-[3px_3px_0px_#07130d] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_#07130d] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all duration-150 flex items-center gap-2 shrink-0"
+              disabled={loading}
+              className="bg-[#0b3d2b] hover:bg-[#0a3525] disabled:bg-slate-400 text-white font-mono text-xs font-black uppercase tracking-wider px-6 py-3.5 border-2 border-[#0b3d2b] shadow-[3px_3px_0px_#07130d] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_#07130d] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all duration-150 flex items-center gap-2 shrink-0 disabled:shadow-none disabled:hover:translate-x-0 disabled:hover:translate-y-0"
             >
-              <Search className="w-4 h-4" />
-              Verify
+              {loading ? <Loader className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+              {loading ? 'Verifying...' : 'Verify'}
             </button>
           </div>
 
-          {searched && !result && (
+          {searched && !loading && !result && !errorMsg && (
             <div className="bg-rose-50 border border-rose-200 p-5 text-center">
               <span className="text-rose-800 text-sm font-bold block">
                 Certificate not found
               </span>
               <span className="text-rose-600 text-xs mt-1 block">
                 No certificate matches the ID &quot;{certId}&quot;. Please check and try again.
+              </span>
+            </div>
+          )}
+
+          {errorMsg && (
+            <div className="bg-rose-50 border border-rose-200 p-5 text-center">
+              <span className="text-rose-800 text-xs font-mono font-bold block">
+                Error: {errorMsg}
               </span>
             </div>
           )}
@@ -154,9 +181,7 @@ export default function VerifyPage() {
             </div>
           )}
 
-          <p className="text-center text-[10px] font-mono text-slate-400 mt-6">
-            Try: <span className="font-bold text-slate-500">VAA-CERT-2026-0042</span>
-          </p>
+          
         </div>
       </main>
 

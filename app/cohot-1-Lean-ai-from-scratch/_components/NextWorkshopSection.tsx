@@ -2,18 +2,35 @@
 
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Sparkles, ArrowRight, Bell, CheckCircle } from 'lucide-react';
+import { Sparkles, Bell, CheckCircle, Loader } from 'lucide-react';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../../../lib/firebase';
 
 export default function NextWorkshopSection() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (name.trim() && email.trim()) {
-      console.log('Waitlist entry:', { name, email });
+    if (!name.trim() || !email.trim()) return;
+    setLoading(true);
+    setError(null);
+    try {
+      await addDoc(collection(db, 'waitlist'), {
+        name: name.trim(),
+        email: email.trim(),
+        cohort: 'Cohort #02 - Build With AI',
+        timestamp: new Date().toLocaleString('en-IN'),
+      });
       setSubmitted(true);
+    } catch (err) {
+      console.error('Waitlist error:', err);
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,6 +71,11 @@ export default function NextWorkshopSection() {
 
           {!submitted ? (
             <form onSubmit={handleSubmit} className="mt-8 max-w-md mx-auto">
+              {error && (
+                <div className="mb-4 bg-red-500/10 border border-red-500/20 p-3">
+                  <p className="text-red-400 text-xs font-medium">{error}</p>
+                </div>
+              )}
               <div className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="text"
@@ -73,10 +95,11 @@ export default function NextWorkshopSection() {
                 />
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center gap-2 bg-[#39ff14] text-[#07130d] font-mono text-xs font-black uppercase tracking-wider px-6 py-3 hover:brightness-110 transition-all duration-200 border border-[#39ff14]/50 shadow-[0_0_30px_rgba(57,255,20,0.15)] shrink-0"
+                  disabled={loading}
+                  className="inline-flex items-center justify-center gap-2 bg-[#39ff14] text-[#07130d] font-mono text-xs font-black uppercase tracking-wider px-6 py-3 hover:brightness-110 disabled:brightness-50 disabled:cursor-not-allowed transition-all duration-200 border border-[#39ff14]/50 shadow-[0_0_30px_rgba(57,255,20,0.15)] shrink-0"
                 >
-                  <Bell className="w-4 h-4" />
-                  Join Waitlist
+                  {loading ? <Loader className="w-4 h-4 animate-spin" /> : <Bell className="w-4 h-4" />}
+                  {loading ? 'Saving...' : 'Join Waitlist'}
                 </button>
               </div>
             </form>

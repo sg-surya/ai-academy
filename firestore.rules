@@ -41,18 +41,45 @@ service cloud.firestore {
         && data.timestamp is string && data.timestamp.size() <= 100;
     }
 
+    function isValidCertificate(data) {
+      return data.keys().hasAll(['name', 'workshop', 'date', 'issuer', 'status'])
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 200
+        && data.workshop is string && data.workshop.size() > 0 && data.workshop.size() <= 300
+        && data.date is string && data.date.size() > 0 && data.date.size() <= 50
+        && data.issuer is string && data.issuer.size() > 0 && data.issuer.size() <= 200
+        && data.status is string && data.status == 'Verified';
+    }
+
+    function isValidWaitlistEntry(data) {
+      return data.keys().hasAll(['name', 'email', 'cohort', 'timestamp'])
+        && data.keys().size() == 4
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 200
+        && data.email is string && data.email.size() > 0 && data.email.size() <= 200
+        && data.cohort is string && data.cohort.size() > 0 && data.cohort.size() <= 200
+        && data.timestamp is string && data.timestamp.size() > 0 && data.timestamp.size() <= 100;
+    }
+
     // Registrations rules
     match /registrations/{registrationId} {
-      // Allow guests to submit registrations securely
       allow create: if isValidId(registrationId) && isValidRegistration(incoming());
-      
-      // Restrict reads and updates from non-console clients to protect personal user data
       allow read, update, delete: if false;
     }
 
     // Reviews rules
     match /reviews/{reviewId} {
       allow create: if isValidId(reviewId) && isValidReview(incoming());
+      allow read, update, delete: if false;
+    }
+
+    // Certificates — public read for verification, admin-only write
+    match /certificates/{certId} {
+      allow read: if true;
+      allow create, update, delete: if false;
+    }
+
+    // Waitlist — public create for signups
+    match /waitlist/{entryId} {
+      allow create: if isValidId(entryId) && isValidWaitlistEntry(incoming());
       allow read, update, delete: if false;
     }
   }
