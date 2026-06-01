@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Award, User, Calendar, FileText, TicketCheck, ExternalLink } from 'lucide-react';
+import Link from 'next/link';
 
 const dummyCert = {
   id: 'VAA-CERT-2026-0042',
@@ -28,55 +29,39 @@ export default function VerifyPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#FAF9F6] text-[#07130d] font-sans selection:bg-emerald-500/10 selection:text-[#0b3d2b]">
-
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#14422e06_1px,transparent_1px),linear-gradient(to_bottom,#14422e06_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
-
       <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-emerald-100/30 rounded-full blur-[120px] pointer-events-none -z-10" />
       <div className="fixed top-[40%] left-[-100px] w-[600px] h-[600px] bg-amber-500/[0.04] rounded-full blur-[140px] pointer-events-none -z-10" />
 
-      {/* HEADER */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md py-3.5 border-b border-[#0b3d2b]/10 shadow-[0_4px_24px_rgba(11,61,43,0.03)] px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-
-          <div className="flex items-center space-x-2.5 group cursor-pointer" onClick={() => window.location.href = '/'}>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center bg-[#0b3d2b] border border-emerald-500/10 shadow-sm transition duration-300">
-              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <header className="fixed top-0 left-0 w-full z-50 bg-[#07130d]/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8">
+        <div className="max-w-7xl mx-auto flex items-center justify-between h-16">
+          <Link href="/" className="flex items-center space-x-2.5 group">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center bg-[#39ff14] border border-[#39ff14]/30 shadow-sm transition duration-300">
+              <svg className="w-5 h-5 text-[#07130d]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 4L12 20L20 4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M8 12H16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
               </svg>
             </div>
             <div>
-              <div className="font-display text-sm sm:text-base font-black tracking-tight text-[#07130d] leading-none">
+              <div className="font-display text-sm sm:text-base font-black tracking-tight text-white leading-none">
                 VASUDEV AI
               </div>
-              <span className="block text-[8px] sm:text-[9px] font-mono tracking-widest text-[#0b3d2b] font-extrabold uppercase mt-0.5">
+              <span className="block text-[8px] sm:text-[9px] font-mono tracking-widest text-[#39ff14] font-extrabold uppercase mt-0.5">
                 ACADEMY
               </span>
             </div>
-          </div>
+          </Link>
 
-          <nav className="hidden md:flex items-center space-x-6 lg:space-x-8 font-mono text-[10px] tracking-wider uppercase font-bold text-slate-500">
-            <a href="/cohot-1-Lean-ai-from-scratch#curriculum" className="hover:text-[#0b3d2b] transition-colors">Curriculum</a>
-            <a href="/cohot-1-Lean-ai-from-scratch#speaker" className="hover:text-[#0b3d2b] transition-colors">About Surya</a>
-            <a href="/cohot-1-Lean-ai-from-scratch#certificate-section" className="hover:text-[#0b3d2b] transition-colors">Syllabus & Certificate</a>
-            <a href="/cohot-1-Lean-ai-from-scratch#faq" className="hover:text-[#0b3d2b] transition-colors">FAQ</a>
+          <nav className="hidden md:flex items-center space-x-6 lg:space-x-8 font-mono text-[10px] tracking-wider uppercase font-bold text-slate-400">
+            <Link href="/cohot-1-Lean-ai-from-scratch" className="hover:text-[#39ff14] transition-colors">Workshop</Link>
+            <Link href="/cohot-1-Lean-ai-from-scratch#resources" className="hover:text-[#39ff14] transition-colors">Resources</Link>
+            <Link href="/cohot-1-Lean-ai-from-scratch#next-workshop" className="hover:text-[#39ff14] transition-colors">Next Cohort</Link>
           </nav>
-
-          <div className="flex items-center space-x-3">
-            <a
-              href="/cohot-1-Lean-ai-from-scratch#registration-section"
-              className="bg-[#0b3d2b] text-white font-mono text-[10px] tracking-wider uppercase font-bold py-2 px-4 shadow-[3px_3px_0px_#07130d] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_#07130d] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all duration-150 border border-[#07130d]"
-            >
-              Register Free
-            </a>
-          </div>
         </div>
       </header>
 
-      {/* MAIN CONTENT */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-8 pt-32 pb-12">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-8 pt-28 pb-12">
         <div className="max-w-lg mx-auto mt-8 sm:mt-12">
-
           <div className="text-center mb-8">
             <span className="inline-flex items-center space-x-1.5 text-[10px] font-mono font-black uppercase tracking-widest text-[#0b3d2b] bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 leading-none mb-4">
               <Award className="w-3.5 h-3.5 text-emerald-700" />
@@ -175,52 +160,32 @@ export default function VerifyPage() {
         </div>
       </main>
 
-      {/* FOOTER */}
-      <footer className="bg-stone-50 border-t border-slate-200 py-10 px-4 sm:px-8 text-xs text-slate-500">
+      <footer className="bg-[#07130d] border-t border-white/5 py-10 px-4 sm:px-8 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-1 text-center sm:text-left">
-            <span className="block font-bold text-slate-700">
+            <span className="block font-bold text-slate-400">
               &copy; 2026 Vasudev AI Academy. All Rights Reserved.
             </span>
-            <p className="text-[10px] text-slate-400 font-mono">
+            <p className="text-[10px] text-slate-600 font-mono">
               Empowering early learners, students, and young pioneers globally.
             </p>
           </div>
-
           <div className="flex items-center space-x-5 font-mono text-[10px] font-bold">
-            <a
-              href="https://youtube.com/@vasudevai"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-red-600 transition-colors flex items-center space-x-1"
-            >
+            <a href="https://youtube.com/@vasudevai" target="_blank" rel="noreferrer" className="hover:text-red-500 transition-colors flex items-center space-x-1">
               <span>YouTube</span>
               <ExternalLink className="w-3 h-3" />
             </a>
-
-            <a
-              href="https://instagram.com/vasudevai"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-pink-600 transition-colors flex items-center space-x-1"
-            >
+            <a href="https://instagram.com/vasudevai" target="_blank" rel="noreferrer" className="hover:text-pink-500 transition-colors flex items-center space-x-1">
               <span>Instagram</span>
               <ExternalLink className="w-3 h-3" />
             </a>
-
-            <a
-              href="https://www.linkedin.com/company/vasudev-ai/"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-blue-700 transition-colors flex items-center space-x-1"
-            >
+            <a href="https://www.linkedin.com/company/vasudev-ai/" target="_blank" rel="noreferrer" className="hover:text-blue-500 transition-colors flex items-center space-x-1">
               <span>LinkedIn</span>
               <ExternalLink className="w-3 h-3" />
             </a>
           </div>
         </div>
       </footer>
-
     </div>
   );
 }

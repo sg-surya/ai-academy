@@ -1,7 +1,7 @@
 import type {Metadata} from 'next';
 import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import Script from 'next/script';
-import './globals.css'; // Global styles
+import './globals.css';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -22,15 +22,14 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Vasudev AI Academy | Free AI Workshop',
-  description: 'Join the free live virtual workshop on AI Fundamentals & Practical Projects. Learn Machine Learning, LLMs, ChatGPT, Claude, Gemini, AI automations, and build real AI projects live.',
+  title: 'Vasudev AI Academy | Cohort #01: Learn AI From Scratch',
+  description: 'A beginner-friendly live workshop that helped absolute beginners understand AI, explore powerful tools, and build practical AI projects. 17+ participants, 4.5/5 rating. Join the next cohort waitlist.',
 };
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
       <head>
-        {/* Google tag (gtag.js) */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-Z75PE4Q41S"
           strategy="afterInteractive"
