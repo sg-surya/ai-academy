@@ -173,14 +173,6 @@ export default function SlidesPage() {
     }
   }, [processFiles]);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const setName = params.get('set');
-    if (setName) {
-      loadSlideset(setName);
-    }
-  }, [loadSlideset]);
-
   const readEntry = useCallback(async (
     entry: FileSystemEntry, base = ''
   ): Promise<{ path: string; content: string }[]> => {

@@ -10,33 +10,19 @@ export async function GET(req: NextRequest) {
   }
 
   try {
+    const configPath = join(homedir(), '.config', 'configstore', 'firebase-tools.json');
+    const config = JSON.parse(readFileSync(configPath, 'utf-8'));
+    const token = config.tokens.access_token;
+
     const dbId = process.env.NEXT_PUBLIC_FIRESTORE_DATABASE_ID || '(default)';
     const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
-    const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
-    
     const encodedDbId = encodeURIComponent(dbId);
     const encodedCertId = encodeURIComponent(certId);
-    
-    let url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/${encodedDbId}/documents/certificates/${encodedCertId}`;
-    if (apiKey) {
-      url += `?key=${encodeURIComponent(apiKey)}`;
-    }
+    const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/${encodedDbId}/documents/certificates/${encodedCertId}`;
 
-    let token: string | null = null;
-    try {
-      const configPath = join(homedir(), '.config', 'configstore', 'firebase-tools.json');
-      const config = JSON.parse(readFileSync(configPath, 'utf-8'));
-      token = config.tokens?.access_token || null;
-    } catch (e) {
-      // Ignore config store errors, fall back to public/API key access
-    }
-
-    const headers: HeadersInit = {};
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
-
-    const res = await fetch(url, { headers });
+    const res = await fetch(url, {
+      headers: { 'Authorization': `Bearer ${token}` },
+    });
 
     if (!res.ok) {
       if (res.status === 404) {
