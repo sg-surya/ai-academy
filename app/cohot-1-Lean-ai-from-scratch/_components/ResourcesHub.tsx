@@ -2,13 +2,14 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { FileText, Download, BookOpen, ClipboardList, Gift, ArrowRight } from 'lucide-react';
+import { FileText, Download, BookOpen, Video, ClipboardList, Gift, ArrowRight } from 'lucide-react';
 
 const resources = [
-  { icon: <FileText className="w-5 h-5" />, title: "Workshop Slides", desc: "Full deck from the live session", free: true, link: "/AI-Workshop.pdf" },
-  { icon: <ClipboardList className="w-5 h-5" />, title: "Prompt Templates", desc: "100+ proven copy-paste formulas", free: true, link: "/cohort-prompt.pdf" },
-  { icon: <Gift className="w-5 h-5" />, title: "Cheatsheets", desc: "Quick reference guides for all tools", free: true, link: "#" },
-  { icon: <BookOpen className="w-5 h-5" />, title: "Bonus Guide", desc: "Secret AI tools directory", free: false, link: "" },
+  { icon: <FileText className="w-5 h-5" />, title: "Workshop Slides", desc: "Full deck from the live session", free: true },
+  { icon: <ClipboardList className="w-5 h-5" />, title: "Prompt Templates", desc: "100+ proven copy-paste formulas", free: true },
+  { icon: <Gift className="w-5 h-5" />, title: "Cheatsheets", desc: "Quick reference guides for all tools", free: true },
+  { icon: <Video className="w-5 h-5" />, title: "Session Recording", desc: "Full 2-hour workshop recording", free: false },
+  { icon: <BookOpen className="w-5 h-5" />, title: "Bonus Guide", desc: "Secret AI tools directory", free: false },
 ];
 
 export default function ResourcesHub() {
@@ -61,15 +62,10 @@ export default function ResourcesHub() {
                 {r.desc}
               </p>
               {r.free ? (
-                <a
-                  href={r.link}
-                  target={r.link !== '#' ? '_blank' : undefined}
-                  rel={r.link !== '#' ? 'noopener noreferrer' : undefined}
-                  className="inline-flex items-center gap-1 mt-4 text-[10px] font-mono font-bold text-emerald-700 uppercase tracking-wider hover:text-emerald-800 transition-colors"
-                >
+                <span className="inline-flex items-center gap-1 mt-4 text-[10px] font-mono font-bold text-emerald-700 uppercase tracking-wider">
                   <Download className="w-3 h-3" />
                   Free Download
-                </a>
+                </span>
               ) : (
                 <a
                   href="#next-workshop"
