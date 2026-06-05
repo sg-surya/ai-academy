@@ -1,0 +1,6 @@
+{
+  "name": "Vasudev AI Academy",
+  "description": "Premium virtual landing page for the Free AI Fundamentals & Practical Projects Workshop by Vasudev AI Academy.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

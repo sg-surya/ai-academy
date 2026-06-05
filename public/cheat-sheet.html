@@ -1,0 +1,411 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.page { font-family: 'DM Sans', sans-serif; padding: 2rem 1rem; max-width: 900px; margin: 0 auto; }
+
+.hero { text-align: center; padding: 2.5rem 1rem 2rem; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 2rem; }
+
+.hero-badge { display: inline-block; background: #EEEDFE; color: #3C3489; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 14px; border-radius: 20px; margin-bottom: 1rem; }
+
+.hero h1 { font-family: 'Syne', sans-serif; font-size: 2.6rem; font-weight: 800; color: var(--color-text-primary); line-height: 1.1; margin-bottom: 0.5rem; }
+
+.hero h1 span { color: #534AB7; }
+
+.hero p { font-size: 14px; color: var(--color-text-secondary); }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
+
+.filter-btn { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 500; color: var(--color-text-secondary); cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+
+.filter-btn:hover, .filter-btn.active { background: #534AB7; color: #fff; border-color: #534AB7; }
+
+.category-section { margin-bottom: 2.5rem; }
+
+.cat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
+
+.cat-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+
+.cat-header h2 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--color-text-primary); }
+
+.cat-count { margin-left: auto; font-size: 11px; font-weight: 500; color: var(--color-text-secondary); background: var(--color-background-secondary); padding: 2px 8px; border-radius: 10px; border: 0.5px solid var(--color-border-tertiary); }
+
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+
+.tool-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; transition: border-color 0.15s; }
+
+.tool-card:hover { border-color: var(--color-border-secondary); }
+
+.tool-top { display: flex; align-items: center; gap: 10px; }
+
+.tool-emoji { font-size: 20px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--color-background-secondary); border-radius: 8px; flex-shrink: 0; }
+
+.tool-name { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--color-text-primary); }
+
+.tool-tag { font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 10px; margin-left: auto; white-space: nowrap; }
+
+.tag-free { background: #EAF3DE; color: #3B6D11; }
+.tag-paid { background: #FAEEDA; color: #854F0B; }
+.tag-freemium { background: #E6F1FB; color: #185FA5; }
+
+.tool-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+
+.tool-link { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; color: #534AB7; text-decoration: none; margin-top: 2px; }
+
+.tool-link:hover { text-decoration: underline; }
+
+.tool-link i { font-size: 11px; }
+
+.stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 2rem; }
+
+.stat-card { background: var(--color-background-secondary); border-radius: 10px; padding: 14px; text-align: center; }
+
+.stat-num { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; color: #534AB7; }
+
+.stat-lbl { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+
+.hidden { display: none !important; }
+
+.no-results { text-align: center; padding: 3rem; color: var(--color-text-secondary); font-size: 14px; display: none; }
+</style>
+
+<h2 class="sr-only" style="position:absolute;left:-9999px;">Vasudev AI Tools List — 35+ AI tools organized by category</h2>
+
+<div class="page">
+  <div class="hero">
+    <div class="hero-badge">✦ Curated Directory</div>
+    <h1>Vasudev <span>AI Tools</span> List</h1>
+    <p>35+ essential AI tools across 8 categories — find the right tool for every task</p>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-num">35+</div><div class="stat-lbl">Total Tools</div></div>
+    <div class="stat-card"><div class="stat-num">8</div><div class="stat-lbl">Categories</div></div>
+    <div class="stat-card"><div class="stat-num">14</div><div class="stat-lbl">Free Tools</div></div>
+    <div class="stat-card"><div class="stat-num">2026</div><div class="stat-lbl">Updated</div></div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterAll(this)">All Tools</button>
+    <button class="filter-btn" onclick="filterCat(this, 'vibe-coding')">⌨️ Vibe Coding</button>
+    <button class="filter-btn" onclick="filterCat(this, 'image-ai')">🖼️ Image AI</button>
+    <button class="filter-btn" onclick="filterCat(this, 'video-ai')">🎬 Video AI</button>
+    <button class="filter-btn" onclick="filterCat(this, 'writing-ai')">✍️ Writing AI</button>
+    <button class="filter-btn" onclick="filterCat(this, 'audio-ai')">🎵 Audio AI</button>
+    <button class="filter-btn" onclick="filterCat(this, 'chatbot-ai')">🤖 Chatbots</button>
+    <button class="filter-btn" onclick="filterCat(this, 'productivity-ai')">⚡ Productivity</button>
+    <button class="filter-btn" onclick="filterCat(this, 'search-ai')">🔍 Search AI</button>
+  </div>
+
+  <div id="all-sections">
+
+    <div class="category-section" data-cat="vibe-coding">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:#EEEDFE;">⌨️</div>
+        <h2>Vibe Coding</h2>
+        <span class="cat-count">5 tools</span>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🌊</div><div class="tool-name">Cursor</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">AI-powered code editor with natural language coding. Write, edit & debug code in plain English inside VS Code-style IDE.</div>
+          <a class="tool-link" href="https://cursor.com" target="_blank">cursor.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">⚡</div><div class="tool-name">Bolt.new</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Build full-stack web apps in browser with AI. Describe your app, Bolt generates and deploys it instantly — no setup needed.</div>
+          <a class="tool-link" href="https://bolt.new" target="_blank">bolt.new <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🎯</div><div class="tool-name">Lovable</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Turn ideas into full-stack web apps using AI. Chat to build React apps with backend, database, and deployment in minutes.</div>
+          <a class="tool-link" href="https://lovable.dev" target="_blank">lovable.dev <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🔮</div><div class="tool-name">v0 by Vercel</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Generate React/Next.js UI components from text prompts. Perfect for frontend vibe coding and rapid prototyping.</div>
+          <a class="tool-link" href="https://v0.dev" target="_blank">v0.dev <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🐙</div><div class="tool-name">GitHub Copilot</div><span class="tool-tag tag-paid">Paid</span></div>
+          <div class="tool-desc">AI pair programmer built into VS Code, JetBrains & more. Real-time code suggestions, explanations and auto-complete.</div>
+          <a class="tool-link" href="https://github.com/features/copilot" target="_blank">github.com/copilot <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-section" data-cat="image-ai">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:#E1F5EE;">🖼️</div>
+        <h2>Image AI</h2>
+        <span class="cat-count">6 tools</span>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🎨</div><div class="tool-name">Midjourney</div><span class="tool-tag tag-paid">Paid</span></div>
+          <div class="tool-desc">World's most popular AI image generator. Creates stunning, hyper-realistic and artistic images from text prompts via Discord.</div>
+          <a class="tool-link" href="https://midjourney.com" target="_blank">midjourney.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🖌️</div><div class="tool-name">DALL·E 3</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">OpenAI's image generator integrated in ChatGPT. Exceptional at following complex prompts and generating accurate text in images.</div>
+          <a class="tool-link" href="https://openai.com/dall-e-3" target="_blank">openai.com/dall-e-3 <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">✨</div><div class="tool-name">Adobe Firefly</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Adobe's commercial-safe AI image tool. Generative Fill, text-to-image, and recolor — fully integrated in Photoshop & Illustrator.</div>
+          <a class="tool-link" href="https://firefly.adobe.com" target="_blank">firefly.adobe.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🌟</div><div class="tool-name">Stable Diffusion</div><span class="tool-tag tag-free">Free</span></div>
+          <div class="tool-desc">Open-source image generation model. Run locally or via platforms like ComfyUI & Automatic1111 for unlimited free generation.</div>
+          <a class="tool-link" href="https://stability.ai" target="_blank">stability.ai <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🦋</div><div class="tool-name">Leonardo AI</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Create game assets, concept art and illustrations. Offers fine-tuned models, image upscaling and canvas editing.</div>
+          <a class="tool-link" href="https://leonardo.ai" target="_blank">leonardo.ai <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🪄</div><div class="tool-name">Canva AI</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Magic Studio inside Canva — generate images, remove backgrounds, expand images, and create social media graphics with AI.</div>
+          <a class="tool-link" href="https://canva.com" target="_blank">canva.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-section" data-cat="video-ai">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:#FAECE7;">🎬</div>
+        <h2>Video AI</h2>
+        <span class="cat-count">5 tools</span>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🎥</div><div class="tool-name">Sora</div><span class="tool-tag tag-paid">Paid</span></div>
+          <div class="tool-desc">OpenAI's text-to-video model. Generates cinematic, realistic videos up to 1 minute from a text prompt or image.</div>
+          <a class="tool-link" href="https://sora.com" target="_blank">sora.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🌊</div><div class="tool-name">Runway ML</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Professional AI video editor — generate video, remove backgrounds, add motion, AI rotoscope and inpainting for creators.</div>
+          <a class="tool-link" href="https://runwayml.com" target="_blank">runwayml.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">💎</div><div class="tool-name">Kling AI</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Kuaishou's powerful text-to-video and image-to-video AI. Creates highly realistic motion and cinematic shots.</div>
+          <a class="tool-link" href="https://klingai.com" target="_blank">klingai.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🎞️</div><div class="tool-name">Pika Labs</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Create and edit AI videos with text or image input. Known for Pika effects, lip sync and cartoon-style video generation.</div>
+          <a class="tool-link" href="https://pika.art" target="_blank">pika.art <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🎭</div><div class="tool-name">HeyGen</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Create AI avatar videos with realistic lip-sync in 175+ languages. Used for marketing, training & personalized video messages.</div>
+          <a class="tool-link" href="https://heygen.com" target="_blank">heygen.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-section" data-cat="writing-ai">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:#FBEAF0;">✍️</div>
+        <h2>Writing AI</h2>
+        <span class="cat-count">5 tools</span>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">📝</div><div class="tool-name">ChatGPT</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">OpenAI's flagship AI. Write blogs, emails, scripts, stories, summaries and more. GPT-4o with memory and web browsing.</div>
+          <a class="tool-link" href="https://chatgpt.com" target="_blank">chatgpt.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🧠</div><div class="tool-name">Claude</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Anthropic's AI assistant — exceptional at long-form writing, analysis, coding and nuanced reasoning with a 200K context window.</div>
+          <a class="tool-link" href="https://claude.ai" target="_blank">claude.ai <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">✒️</div><div class="tool-name">Jasper AI</div><span class="tool-tag tag-paid">Paid</span></div>
+          <div class="tool-desc">AI writing platform for marketing teams. Create ad copy, blog posts, social captions and brand content at scale.</div>
+          <a class="tool-link" href="https://jasper.ai" target="_blank">jasper.ai <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">📋</div><div class="tool-name">Copy.ai</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Generate sales copy, email sequences, social posts and product descriptions. Includes workflows for entire campaigns.</div>
+          <a class="tool-link" href="https://copy.ai" target="_blank">copy.ai <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🔤</div><div class="tool-name">Grammarly</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">AI writing assistant for grammar, style & tone. Rewrite sentences, adjust formality, detect plagiarism and improve clarity.</div>
+          <a class="tool-link" href="https://grammarly.com" target="_blank">grammarly.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-section" data-cat="audio-ai">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:#E1F5EE;">🎵</div>
+        <h2>Audio AI</h2>
+        <span class="cat-count">5 tools</span>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🎸</div><div class="tool-name">Suno AI</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Generate complete songs with vocals and instruments from a text prompt. Create any genre in seconds — pop, rap, lo-fi, jazz.</div>
+          <a class="tool-link" href="https://suno.com" target="_blank">suno.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🎶</div><div class="tool-name">Udio</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">AI music generation platform that creates high-quality, radio-ready songs from simple text descriptions.</div>
+          <a class="tool-link" href="https://udio.com" target="_blank">udio.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🗣️</div><div class="tool-name">ElevenLabs</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Ultra-realistic AI text-to-speech and voice cloning in 29+ languages. Used for audiobooks, podcasts, dubbing and voiceovers.</div>
+          <a class="tool-link" href="https://elevenlabs.io" target="_blank">elevenlabs.io <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🎙️</div><div class="tool-name">Whisper (OpenAI)</div><span class="tool-tag tag-free">Free</span></div>
+          <div class="tool-desc">Open-source speech-to-text model by OpenAI. Transcribes audio in 99 languages with high accuracy — free to run locally.</div>
+          <a class="tool-link" href="https://openai.com/research/whisper" target="_blank">openai.com/whisper <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🔊</div><div class="tool-name">Murf AI</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Studio-quality AI voiceover platform with 200+ voices. Create narrations for videos, e-learning, ads and presentations.</div>
+          <a class="tool-link" href="https://murf.ai" target="_blank">murf.ai <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-section" data-cat="chatbot-ai">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:#EEEDFE;">🤖</div>
+        <h2>Chatbots & Assistants</h2>
+        <span class="cat-count">4 tools</span>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">💎</div><div class="tool-name">Gemini</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Google's multimodal AI assistant. Integrates with Google Workspace, Docs, Gmail, YouTube and has real-time web access.</div>
+          <a class="tool-link" href="https://gemini.google.com" target="_blank">gemini.google.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🌙</div><div class="tool-name">Meta AI</div><span class="tool-tag tag-free">Free</span></div>
+          <div class="tool-desc">Free AI assistant by Meta. Available inside WhatsApp, Instagram, Facebook and Messenger — no account switching needed.</div>
+          <a class="tool-link" href="https://meta.ai" target="_blank">meta.ai <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🌊</div><div class="tool-name">Grok (xAI)</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Elon Musk's AI built into X (Twitter). Real-time access to X posts, DeepSearch, image generation and bold/uncensored answers.</div>
+          <a class="tool-link" href="https://grok.com" target="_blank">grok.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🐬</div><div class="tool-name">DeepSeek</div><span class="tool-tag tag-free">Free</span></div>
+          <div class="tool-desc">Chinese open-source AI with deep reasoning capabilities. Exceptional at math, code and science problems — free to use.</div>
+          <a class="tool-link" href="https://chat.deepseek.com" target="_blank">chat.deepseek.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-section" data-cat="productivity-ai">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:#FAEEDA;">⚡</div>
+        <h2>Productivity AI</h2>
+        <span class="cat-count">5 tools</span>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">📓</div><div class="tool-name">Notion AI</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">AI built into Notion workspace. Write, summarize, translate, find action items and auto-fill databases from your notes.</div>
+          <a class="tool-link" href="https://notion.so/product/ai" target="_blank">notion.so/ai <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">📊</div><div class="tool-name">Microsoft Copilot</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">AI embedded in Word, Excel, PowerPoint and Teams. Summarize meetings, create slide decks, write formulas and generate reports.</div>
+          <a class="tool-link" href="https://copilot.microsoft.com" target="_blank">copilot.microsoft.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">📅</div><div class="tool-name">Otter.ai</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">AI meeting transcription and note-taker. Joins Zoom/Meet/Teams calls, transcribes in real-time and generates meeting summaries.</div>
+          <a class="tool-link" href="https://otter.ai" target="_blank">otter.ai <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🔗</div><div class="tool-name">Zapier AI</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Build AI-powered automations without code. Connect 7000+ apps with AI agents that can browse the web and take actions.</div>
+          <a class="tool-link" href="https://zapier.com/ai" target="_blank">zapier.com/ai <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🧩</div><div class="tool-name">Gamma App</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">Generate beautiful presentations, documents and websites from a prompt. AI designs the slides so you just refine the content.</div>
+          <a class="tool-link" href="https://gamma.app" target="_blank">gamma.app <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-section" data-cat="search-ai">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:#E6F1FB;">🔍</div>
+        <h2>Search & Research AI</h2>
+        <span class="cat-count">5 tools</span>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🔭</div><div class="tool-name">Perplexity AI</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">AI-powered search engine that gives direct answers with cited sources. Ask complex questions and get research-grade responses.</div>
+          <a class="tool-link" href="https://perplexity.ai" target="_blank">perplexity.ai <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🌐</div><div class="tool-name">You.com</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">AI search engine with chat mode, code mode and creative mode. Search the web while chatting with an AI in one interface.</div>
+          <a class="tool-link" href="https://you.com" target="_blank">you.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🦆</div><div class="tool-name">DuckDuckGo AI</div><span class="tool-tag tag-free">Free</span></div>
+          <div class="tool-desc">Privacy-first AI chat using GPT-4, Claude & Llama. No conversation logs stored — anonymous AI assistance built into search.</div>
+          <a class="tool-link" href="https://duckduckgo.com/aichat" target="_blank">duckduckgo.com/aichat <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">📚</div><div class="tool-name">Consensus</div><span class="tool-tag tag-freemium">Freemium</span></div>
+          <div class="tool-desc">AI that searches scientific research papers. Get evidence-based answers from 200M+ academic studies — ideal for students.</div>
+          <a class="tool-link" href="https://consensus.app" target="_blank">consensus.app <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+        <div class="tool-card">
+          <div class="tool-top"><div class="tool-emoji">🤿</div><div class="tool-name">NotebookLM</div><span class="tool-tag tag-free">Free</span></div>
+          <div class="tool-desc">Google's AI research assistant. Upload PDFs, docs or URLs and chat with your sources — even generates podcast-style audio summaries.</div>
+          <a class="tool-link" href="https://notebooklm.google.com" target="_blank">notebooklm.google.com <i class="ti ti-external-link" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="no-results" id="no-results">No tools found in this category.</div>
+
+  <div style="text-align:center; padding: 2rem 0 1rem; border-top: 0.5px solid var(--color-border-tertiary); margin-top: 1rem;">
+    <p style="font-size: 12px; color: var(--color-text-secondary);">Vasudev AI Tools List • Updated June 2026 • 35+ tools across 8 categories</p>
+  </div>
+</div>
+
+<script>
+function filterAll(btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.category-section').forEach(s => s.classList.remove('hidden'));
+  document.getElementById('no-results').style.display = 'none';
+}
+
+function filterCat(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  let found = false;
+  document.querySelectorAll('.category-section').forEach(s => {
+    if (s.dataset.cat === cat) { s.classList.remove('hidden'); found = true; }
+    else s.classList.add('hidden');
+  });
+  document.getElementById('no-results').style.display = found ? 'none' : 'block';
+}
+</script>

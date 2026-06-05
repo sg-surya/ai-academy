@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Sparkles, Bell, CheckCircle, Loader } from 'lucide-react';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../../../lib/firebase';
 
 export default function NextWorkshopSection() {
   const [name, setName] = useState('');
@@ -17,19 +19,12 @@ export default function NextWorkshopSection() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-          cohort: 'Cohort #02 - Build With AI',
-        }),
+      await addDoc(collection(db, 'waitlist'), {
+        name: name.trim(),
+        email: email.trim(),
+        cohort: 'Cohort #02 - Build With AI',
+        timestamp: new Date().toLocaleString('en-IN'),
       });
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({ error: 'Something went wrong' }));
-        throw new Error(errData.error || 'Something went wrong');
-      }
       setSubmitted(true);
     } catch (err) {
       console.error('Waitlist error:', err);

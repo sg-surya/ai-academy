@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, Award, User, Calendar, FileText, TicketCheck, ExternalLink, Loader, Bell, Sparkles, CheckCircle } from 'lucide-react';
+import { Search, Award, User, Calendar, FileText, TicketCheck, ExternalLink, Loader } from 'lucide-react';
 import Link from 'next/link';
 
 interface CertData {
@@ -180,10 +180,8 @@ export default function VerifyPage() {
               </div>
             </div>
           )}
-        </div>
 
-        <div className="max-w-2xl mx-auto mt-20 sm:mt-24">
-          <WaitlistForm />
+          
         </div>
       </main>
 
@@ -214,105 +212,5 @@ export default function VerifyPage() {
         </div>
       </footer>
     </div>
-  );
-}
-
-function WaitlistForm() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim() || !email.trim()) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-          cohort: 'Cohort #02 - Build With AI',
-        }),
-      });
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({ error: 'Something went wrong' }));
-        throw new Error(errData.error || 'Something went wrong');
-      }
-      setSubmitted(true);
-    } catch (err) {
-      console.error('Waitlist error:', err);
-      setError('Something went wrong. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <section className="bg-white border-2 border-[#0b3d2b]/20 p-6 sm:p-10 text-center relative">
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#14422e04_1px,transparent_1px),linear-gradient(to_bottom,#14422e04_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
-      <div className="relative z-10">
-        <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-black uppercase tracking-widest text-[#0b3d2b] bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 mb-5">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-700" />
-          <span>Coming Soon</span>
-        </span>
-        <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-[#07130d] tracking-tight mt-2">
-          Join the <span className="text-[#0b3d2b] underline decoration-emerald-300 decoration-2 underline-offset-4">Waitlist</span>
-        </h2>
-        <p className="text-slate-500 text-sm mt-3 max-w-lg mx-auto font-medium">
-          Cohort #02: Build With AI is in the works. Get early access, exclusive resources, and a special discount.
-        </p>
-
-        {!submitted ? (
-          <form onSubmit={handleSubmit} className="mt-6 max-w-md mx-auto">
-            {error && (
-              <div className="mb-4 bg-rose-50 border border-rose-200 p-3">
-                <p className="text-rose-700 text-xs font-medium">{error}</p>
-              </div>
-            )}
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Your Name"
-                required
-                className="w-full sm:flex-1 bg-[#FAF9F6] border-2 border-slate-200 px-4 py-3 text-sm text-slate-900 placeholder-slate-400 font-semibold focus:outline-none focus:border-[#0b3d2b] transition-all duration-200"
-              />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your Email"
-                required
-                className="w-full sm:flex-1 bg-[#FAF9F6] border-2 border-slate-200 px-4 py-3 text-sm text-slate-900 placeholder-slate-400 font-semibold focus:outline-none focus:border-[#0b3d2b] transition-all duration-200"
-              />
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#0b3d2b] hover:bg-[#0a3525] disabled:bg-slate-400 text-white font-mono text-xs font-black uppercase tracking-wider px-6 py-3 border-2 border-[#0b3d2b] shadow-[3px_3px_0px_#07130d] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_#07130d] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all duration-150 shrink-0 disabled:shadow-none disabled:hover:translate-x-0 disabled:hover:translate-y-0"
-              >
-                {loading ? <Loader className="w-4 h-4 animate-spin" /> : <Bell className="w-4 h-4" />}
-                {loading ? 'Saving...' : 'Join Waitlist'}
-              </button>
-            </div>
-          </form>
-        ) : (
-          <div className="mt-6 bg-emerald-50 border border-emerald-200 p-6 max-w-md mx-auto">
-            <CheckCircle className="w-8 h-8 text-emerald-600 mx-auto mb-3" />
-            <p className="font-display text-lg font-black text-[#07130d]">
-              You&apos;re on the list!
-            </p>
-            <p className="text-slate-500 text-sm mt-1 font-medium">
-              We&apos;ll notify you when Cohort #02 opens.
-            </p>
-          </div>
-        )}
-      </div>
-    </section>
   );
 }

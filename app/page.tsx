@@ -23,7 +23,7 @@ export default function Home() {
               Create Websites, Chatbots & AI Apps — Live & Interactive
             </p>
             <Link
-              href="/cohot-1-Lean-ai-from-scratch#next-workshop"
+              href="/cohot-2-Built-with-ai"
               className="inline-flex items-center gap-2 mt-5 bg-[#39ff14] text-[#07130d] font-mono text-[10px] font-black uppercase tracking-wider px-5 py-3 hover:brightness-110 transition-all border border-[#39ff14]/50"
             >
               Join Waitlist
