@@ -73,6 +73,17 @@ export default function BuildWithAiLandingPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Check localStorage on mount — if already voted, show live results directly
+  useEffect(() => {
+    const savedVote = localStorage.getItem('cohort2_poll_vote');
+    if (savedVote) {
+      setPollTopic(savedVote);
+      setPollSubmitted(true);
+      fetchPollResults();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
@@ -127,6 +138,7 @@ export default function BuildWithAiLandingPage() {
         timestamp: new Date().toLocaleString('en-IN'),
       });
       await fetchPollResults();
+      localStorage.setItem('cohort2_poll_vote', pollTopic);
       setPollSubmitted(true);
     } catch (err) {
       console.error('Poll vote error:', err);
