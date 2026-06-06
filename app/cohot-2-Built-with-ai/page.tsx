@@ -43,14 +43,32 @@ import {
   Link2,
   Youtube
 } from 'lucide-react';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+
+const POLL_TOPICS = [
+  "Vibe Coding (Build Apps & Websites with AI)",
+  "AI Agents",
+  "AI Automation",
+  "Advanced Prompt Engineering",
+  "AI for Business & Marketing",
+  "Something Else",
+];
 
 export default function BuildWithAiLandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   // Waitlist form state
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [selectedBuild, setSelectedBuild] = useState('Website');
+  const [pollTopic, setPollTopic] = useState('Vibe Coding (Build Apps & Websites with AI)');
+  const [pollSubmitted, setPollSubmitted] = useState(false);
+  const [pollLoading, setPollLoading] = useState(false);
+  const [pollResults, setPollResults] = useState<Record<string, number>>(() =>
+    Object.fromEntries(POLL_TOPICS.map((topic) => [topic, 0]))
+  );
+  const [pollTotal, setPollTotal] = useState(0);
+  const [pollError, setPollError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -70,6 +88,7 @@ export default function BuildWithAiLandingPage() {
       await addDoc(collection(db, 'waitlist'), {
         name: name.trim(),
         email: email.trim(),
+        interestedIn: selectedBuild,
         cohort: 'Cohort #02 - Build With AI',
         timestamp: new Date().toLocaleString('en-IN'),
       });
@@ -79,6 +98,41 @@ export default function BuildWithAiLandingPage() {
       setError('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchPollResults = async () => {
+    const snapshot = await getDocs(collection(db, 'cohort_2_topic_votes'));
+    const counts = Object.fromEntries(POLL_TOPICS.map((topic) => [topic, 0]));
+
+    snapshot.forEach((doc) => {
+      const topic = doc.data().topic;
+      if (typeof topic === 'string' && topic in counts) {
+        counts[topic] += 1;
+      }
+    });
+
+    setPollResults(counts);
+    setPollTotal(Object.values(counts).reduce((sum, count) => sum + count, 0));
+  };
+
+  const handlePollSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPollLoading(true);
+    setPollError(null);
+    try {
+      await addDoc(collection(db, 'cohort_2_topic_votes'), {
+        topic: pollTopic,
+        cohort: 'Cohort #02 - Build With AI',
+        timestamp: new Date().toLocaleString('en-IN'),
+      });
+      await fetchPollResults();
+      setPollSubmitted(true);
+    } catch (err) {
+      console.error('Poll vote error:', err);
+      setPollError('Vote save nahi hua. Please try again.');
+    } finally {
+      setPollLoading(false);
     }
   };
 
@@ -167,11 +221,26 @@ export default function BuildWithAiLandingPage() {
 
               {/* Subheading */}
               <p className="text-slate-700 text-base sm:text-lg mt-8 max-w-xl font-medium leading-relaxed">
-                Build websites, apps and AI tools without traditional coding.
+                Build websites, apps, AI agents and automations using the latest AI tools.
+                Go from AI User to AI Builder in just 7 days.
               </p>
 
+              <div className="mt-7 max-w-xl bg-white border border-orange-100 rounded-2xl p-4 sm:p-5 shadow-[0_8px_28px_rgba(247,92,3,0.05)]">
+                <p className="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-slate-500 font-black mb-4">
+                  By the end of the bootcamp you&apos;ll have built
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {["Website", "AI App", "AI Agent", "Automation Workflow"].map((item) => (
+                    <div key={item} className="flex items-center gap-2 text-sm font-black text-[#07130d]">
+                      <CheckCircle className="w-4 h-4 text-[#f75c03] shrink-0" />
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               {/* Three Value Cards */}
-              <div className="grid grid-cols-3 gap-3 sm:gap-4 mt-8 max-w-xl">
+              <div className="grid grid-cols-3 gap-3 sm:gap-4 mt-7 max-w-xl">
                 {/* Rating Card */}
                 <div className="bg-white border border-slate-200/80 p-4 rounded-2xl flex flex-col justify-center items-center text-center shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
                   <div className="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center text-[#f75c03] mb-2">
@@ -207,7 +276,7 @@ export default function BuildWithAiLandingPage() {
                   <ArrowRight className="w-4 h-4" />
                 </a>
                 <Link href="/cohot-1-Lean-ai-from-scratch" className="inline-flex items-center gap-2 bg-white border border-slate-200 text-slate-700 font-mono text-xs font-bold uppercase tracking-wider px-5 py-4 rounded-xl hover:bg-slate-50 transition-all duration-200">
-                  👁️ See Cohort #01
+                  See Cohort #01
                 </Link>
               </div>
             </motion.div>
@@ -247,14 +316,51 @@ export default function BuildWithAiLandingPage() {
         </div>
       </section>
 
+      {/* TRANSFORMATION SECTION */}
+      <section className="py-16 relative z-10 bg-[#FAF9F6] border-y border-orange-100/70">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-5">
+              <span className="inline-flex items-center gap-2 text-[#f75c03] font-mono text-[10px] font-black uppercase tracking-widest mb-4">
+                <Sparkles className="w-4 h-4" />
+                From AI Users to AI Builders
+              </span>
+              <h2 className="font-display text-3xl sm:text-4xl font-black text-[#07130d] tracking-tight leading-tight uppercase">
+                Most people watch AI content. Builders create with AI.
+              </h2>
+            </div>
+            <div className="lg:col-span-7">
+              <div className="bg-white border border-orange-100 rounded-3xl p-6 sm:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.02)]">
+                <p className="text-slate-600 text-sm sm:text-base font-semibold leading-relaxed">
+                  Cohort #02 is designed to help you stop consuming and start building real projects.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
+                  {["No endless theory.", "No boring presentations.", "Just practical building."].map((item) => (
+                    <div key={item} className="bg-orange-500/5 border border-orange-100 rounded-2xl p-4">
+                      <Check className="w-4 h-4 text-[#f75c03] mb-3" />
+                      <p className="text-xs font-black uppercase tracking-wider text-[#07130d] leading-relaxed">
+                        {item}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* WHAT YOU'LL BUILD */}
       <section className="py-20 relative z-10 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-8">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl sm:text-4xl font-black text-[#07130d] tracking-tight uppercase relative inline-block">
-              What You&apos;ll Build
+              What You&apos;ll Actually Build
               <span className="absolute bottom-[-10px] left-1/2 -translate-x-1/2 w-12 h-1 bg-[#f75c03] rounded" />
             </h2>
+            <p className="text-sm sm:text-base text-slate-500 font-semibold mt-7 max-w-2xl mx-auto leading-relaxed">
+              Every project is hands-on, beginner friendly and designed to give you something real to show.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
@@ -381,6 +487,140 @@ export default function BuildWithAiLandingPage() {
         </div>
       </section>
 
+      {/* WHY COHORT #02 + POLL */}
+      <section id="highlights" className="py-20 relative z-10 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+            <div className="lg:col-span-6 bg-[#07130d] text-white rounded-3xl p-8 sm:p-10 relative overflow-hidden">
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none" />
+              <div className="relative z-10">
+                <span className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 px-3 py-1.5 text-[#f75c03] font-mono text-[10px] font-black uppercase tracking-widest mb-6">
+                  <Zap className="w-3.5 h-3.5" />
+                  Why Cohort #02?
+                </span>
+                <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight leading-tight uppercase">
+                  Cohort #01 taught AI. <br />
+                  Cohort #02 is about building with AI.
+                </h2>
+                <p className="text-slate-300 text-sm sm:text-base font-semibold leading-relaxed mt-5 max-w-xl">
+                  This time we&apos;re going deeper with more projects, more practice, more building and more results.
+                </p>
+                <div className="grid grid-cols-2 gap-3 mt-8">
+                  {["More projects", "More practice", "More building", "More results"].map((item) => (
+                    <div key={item} className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl p-3">
+                      <Check className="w-4 h-4 text-[#f75c03] shrink-0" />
+                      <span className="text-xs font-mono font-black uppercase tracking-wider text-slate-200">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-6 bg-[#FFFDF9] border border-orange-100 rounded-3xl p-8 sm:p-10 shadow-[0_8px_30px_rgba(0,0,0,0.02)]">
+              <div className="flex items-start justify-between gap-5 mb-7">
+                <div>
+                  <span className="inline-flex items-center gap-2 text-[#f75c03] font-mono text-[10px] font-black uppercase tracking-widest mb-3">
+                    <ClipboardList className="w-4 h-4" />
+                    Help Shape Cohort #02
+                  </span>
+                  <h2 className="font-display text-3xl sm:text-4xl font-black text-[#07130d] tracking-tight leading-tight">
+                    Vote for the topic you&apos;d love to learn.
+                  </h2>
+                  <p className="text-sm text-slate-500 font-semibold mt-3 max-w-lg">
+                    We&apos;re building this bootcamp with the community, so your vote helps decide what gets more focus.
+                  </p>
+                </div>
+              </div>
+
+              {!pollSubmitted ? (
+                <form onSubmit={handlePollSubmit} className="space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {POLL_TOPICS.map((topic) => (
+                      <label
+                        key={topic}
+                        className={`flex items-center gap-3 border rounded-xl p-4 cursor-pointer transition-all ${
+                          pollTopic === topic
+                            ? 'border-[#f75c03] bg-orange-500/5 text-[#07130d]'
+                            : 'border-slate-200 bg-white text-slate-600 hover:border-orange-200'
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="pollTopic"
+                          value={topic}
+                          checked={pollTopic === topic}
+                          onChange={(e) => setPollTopic(e.target.value)}
+                          className="accent-[#f75c03]"
+                        />
+                        <span className="text-xs font-black uppercase tracking-wider">{topic}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {pollError && (
+                    <div className="bg-red-500/5 border border-red-500/10 p-3 rounded-lg">
+                      <p className="text-red-500 text-xs font-medium">{pollError}</p>
+                    </div>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={pollLoading}
+                    className="inline-flex items-center justify-center gap-2 bg-[#07130d] text-white font-mono text-xs font-black uppercase tracking-wider px-6 py-4 rounded-xl hover:bg-[#10251a] disabled:brightness-50 transition-all duration-200"
+                  >
+                    {pollLoading ? <Loader className="w-4 h-4 animate-spin" /> : <span>Submit Vote</span>}
+                    {!pollLoading && <ArrowRight className="w-4 h-4" />}
+                  </button>
+                </form>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-white border border-orange-100 rounded-2xl p-6"
+                >
+                  <div className="flex items-start gap-3 mb-6">
+                    <CheckCircle className="w-8 h-8 text-[#f75c03] shrink-0" />
+                    <div>
+                      <p className="font-display text-xl font-black text-[#07130d]">Vote submitted.</p>
+                      <p className="text-sm text-slate-500 font-semibold mt-1">
+                        Live poll results based on {pollTotal} {pollTotal === 1 ? 'vote' : 'votes'}.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {POLL_TOPICS.map((topic) => {
+                      const count = pollResults[topic] ?? 0;
+                      const percent = pollTotal > 0 ? Math.round((count / pollTotal) * 100) : 0;
+
+                      return (
+                        <div key={topic}>
+                          <div className="flex items-center justify-between gap-3 mb-2">
+                            <div className="flex items-center gap-2">
+                              <span className={`w-2.5 h-2.5 rounded-full ${topic === pollTopic ? 'bg-[#f75c03]' : 'bg-slate-300'}`} />
+                              <span className="text-xs font-black uppercase tracking-wider text-[#07130d]">
+                                {topic}
+                              </span>
+                            </div>
+                            <span className="text-xs font-mono font-black text-slate-500">
+                              {percent}% ({count})
+                            </span>
+                          </div>
+                          <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all duration-700 ${topic === pollTopic ? 'bg-[#f75c03]' : 'bg-orange-300'}`}
+                              style={{ width: `${percent}%` }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* WHAT PARTICIPANTS SAID & MEET THE HOSTS */}
       <section className="py-20 relative z-10 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-8">
@@ -494,13 +734,11 @@ export default function BuildWithAiLandingPage() {
                       Surya Pratap Singh
                     </h3>
                     <span className="inline-block text-[9px] font-mono font-bold text-orange-600 bg-orange-50 border border-orange-100 px-2 py-0.5 mt-1.5 uppercase">
-                      Founder
+                      Founder of Vasudev AI
                     </span>
-                    <div className="text-[10px] text-slate-500 font-semibold mt-2.5 space-y-0.5">
-                      <p>AI Builder</p>
-                      <p>Mentor</p>
-                      <p>Speaker</p>
-                    </div>
+                    <p className="text-[11px] text-slate-500 font-semibold mt-2.5 leading-relaxed">
+                      Passionate about helping people learn, build and launch projects using AI.
+                    </p>
                     <div className="flex gap-2.5 mt-3.5 text-slate-400">
                       <a href="#" className="hover:text-orange-500 transition-colors">
                         <Linkedin className="w-4 h-4" />
@@ -526,10 +764,9 @@ export default function BuildWithAiLandingPage() {
                     <span className="inline-block text-[9px] font-mono font-bold text-orange-600 bg-orange-50 border border-orange-100 px-2 py-0.5 mt-1.5 uppercase">
                       Co-Founder
                     </span>
-                    <div className="text-[10px] text-slate-500 font-semibold mt-2.5 space-y-0.5">
-                      <p>Full Stack Developer</p>
-                      <p>AI Enthusiast</p>
-                    </div>
+                    <p className="text-[11px] text-slate-500 font-semibold mt-2.5 leading-relaxed">
+                      Focused on practical implementation, development and AI-powered workflows.
+                    </p>
                     <div className="flex gap-2.5 mt-3.5 text-slate-400">
                       <a href="#" className="hover:text-orange-500 transition-colors">
                         <Linkedin className="w-4 h-4" />
@@ -558,10 +795,10 @@ export default function BuildWithAiLandingPage() {
               {/* Left Side: Copy and Badges */}
               <div className="lg:col-span-5 text-left">
                 <h2 className="font-display text-4xl sm:text-5xl font-black text-[#07130d] tracking-tight leading-tight mb-3">
-                  Be the first to know
+                  Join The Cohort #02 Waitlist
                 </h2>
                 <p className="text-sm sm:text-base text-slate-500 font-semibold mb-8 leading-relaxed max-w-sm">
-                  Join the waitlist and get early access when Cohort #02 launches.
+                  Seats will be limited. Join the waitlist and get early access when registrations officially open.
                 </p>
                 
                 {/* Badges Grid */}
@@ -617,6 +854,34 @@ export default function BuildWithAiLandingPage() {
                         />
                       </div>
 
+                      <div className="space-y-3">
+                        <p className="font-mono text-[10px] font-black uppercase tracking-widest text-slate-500">
+                          What do you want to build?
+                        </p>
+                        <div className="grid grid-cols-2 gap-2">
+                          {["Website", "AI App", "AI Agent", "Automation"].map((option) => (
+                            <label
+                              key={option}
+                              className={`flex items-center gap-2 border rounded-xl px-3 py-3 cursor-pointer transition-all ${
+                                selectedBuild === option
+                                  ? 'border-[#f75c03] bg-orange-500/5 text-[#07130d]'
+                                  : 'border-slate-200 bg-slate-50 text-slate-500 hover:border-orange-200'
+                              }`}
+                            >
+                              <input
+                                type="radio"
+                                name="selectedBuild"
+                                value={option}
+                                checked={selectedBuild === option}
+                                onChange={(e) => setSelectedBuild(e.target.value)}
+                                className="accent-[#f75c03]"
+                              />
+                              <span className="text-[10px] font-black uppercase tracking-wider">{option}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+
                       <button
                         type="submit"
                         disabled={loading}
@@ -659,6 +924,36 @@ export default function BuildWithAiLandingPage() {
         </div>
       </section>
 
+
+      {/* FINAL CTA */}
+      <section className="relative z-10 py-20 bg-white border-t border-slate-200">
+        <div className="max-w-5xl mx-auto px-4 sm:px-8 text-center">
+          <div className="bg-[#07130d] text-white rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none" />
+            <div className="absolute right-[-120px] top-[-120px] w-72 h-72 bg-orange-500/10 rounded-full blur-[90px] pointer-events-none" />
+            <div className="relative z-10">
+              <span className="inline-flex items-center gap-2 text-[#f75c03] font-mono text-[10px] font-black uppercase tracking-widest mb-4">
+                <Sparkles className="w-4 h-4" />
+                The Future Belongs To Builders
+              </span>
+              <h2 className="font-display text-4xl sm:text-5xl font-black tracking-tight leading-tight">
+                Don&apos;t just learn AI. <br />
+                Build with it.
+              </h2>
+              <p className="text-slate-300 text-sm sm:text-base font-semibold leading-relaxed mt-5 max-w-2xl mx-auto">
+                Join Cohort #02 and create something real with websites, AI apps, agents and automations.
+              </p>
+              <a
+                href="#waitlist"
+                className="inline-flex items-center justify-center gap-2 mt-8 bg-[#f75c03] text-white font-mono text-xs font-black uppercase tracking-wider px-7 py-4 rounded-xl hover:bg-[#e05302] transition-all duration-200 shadow-md shadow-orange-500/20"
+              >
+                Join Waitlist
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* FOOTER */}
       <footer className="relative z-10 border-t border-slate-200/60 py-6 bg-[#FAF9F6] px-4 sm:px-8">

@@ -51,11 +51,21 @@ service cloud.firestore {
     }
 
     function isValidWaitlistEntry(data) {
-      return data.keys().hasAll(['name', 'email', 'cohort', 'timestamp'])
-        && data.keys().size() == 4
+      return data.keys().hasAll(['name', 'email', 'interestedIn', 'cohort', 'timestamp'])
+        && data.keys().size() == 5
         && data.name is string && data.name.size() > 0 && data.name.size() <= 200
         && data.email is string && data.email.size() > 0 && data.email.size() <= 200
+        && data.interestedIn is string && data.interestedIn.size() > 0 && data.interestedIn.size() <= 100
         && data.cohort is string && data.cohort.size() > 0 && data.cohort.size() <= 200
+        && data.timestamp is string && data.timestamp.size() > 0 && data.timestamp.size() <= 100;
+    }
+
+    function isValidCohort2TopicVote(data) {
+      return data.keys().hasAll(['topic', 'cohort', 'timestamp'])
+        && data.keys().size() == 3
+        && data.topic is string
+        && data.topic in ['Vibe Coding (Build Apps & Websites with AI)', 'AI Agents', 'AI Automation', 'Advanced Prompt Engineering', 'AI for Business & Marketing', 'Something Else']
+        && data.cohort is string && data.cohort == 'Cohort #02 - Build With AI'
         && data.timestamp is string && data.timestamp.size() > 0 && data.timestamp.size() <= 100;
     }
 
@@ -79,8 +89,15 @@ service cloud.firestore {
 
     // Waitlist — public create for signups
     match /waitlist/{entryId} {
-      allow create: if isValidId(entryId) && isValidWaitlistEntry(incoming());
+      allow create: if isValidWaitlistEntry(incoming());
       allow read, update, delete: if false;
+    }
+
+    // Cohort #02 topic poll — public create/read for live percentages
+    match /cohort_2_topic_votes/{voteId} {
+      allow create: if isValidCohort2TopicVote(incoming());
+      allow read: if true;
+      allow update, delete: if false;
     }
   }
 }
